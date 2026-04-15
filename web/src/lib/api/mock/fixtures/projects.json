@@ -1,0 +1,35 @@
+[
+  {
+    "id": "proj_karakol",
+    "org_id": "org_demo",
+    "kind": "deck",
+    "name": "Водный путь Иссык-Куль 2026",
+    "status": "ready",
+    "created_by": "user_demo",
+    "created_at": "2026-04-10T10:00:00.000Z",
+    "updated_at": "2026-04-14T16:45:00.000Z",
+    "preview_image_url": "/demo-deck/images/cover.jpg"
+  },
+  {
+    "id": "proj_house_bishkek",
+    "org_id": "org_demo",
+    "kind": "smeta",
+    "name": "Жилой дом 120 м², Бишкек",
+    "status": "draft",
+    "created_by": "user_2",
+    "created_at": "2026-04-12T14:30:00.000Z",
+    "updated_at": "2026-04-14T11:20:00.000Z",
+    "preview_image_url": null
+  },
+  {
+    "id": "proj_office_osh",
+    "org_id": "org_demo",
+    "kind": "deck",
+    "name": "Офисный центр, г. Ош",
+    "status": "processing",
+    "created_by": "user_3",
+    "created_at": "2026-04-14T09:15:00.000Z",
+    "updated_at": "2026-04-14T09:15:00.000Z",
+    "preview_image_url": null
+  }
+]

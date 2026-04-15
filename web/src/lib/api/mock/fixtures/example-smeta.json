@@ -1,0 +1,66 @@
+{
+  "id": "smeta_house_bishkek",
+  "project_id": "proj_house_bishkek",
+  "region": "Бишкек, Жер-Арча",
+  "currency": "KGS",
+  "sections": [
+    {
+      "name": { "ru": "Земляные работы", "en": "Earthworks" },
+      "items": [
+        {
+          "id": "li_1",
+          "description": { "ru": "Разработка грунта экскаватором", "en": "Excavator earthworks" },
+          "unit": "м³",
+          "qty": 120,
+          "rate": 450,
+          "total": 54000,
+          "source": "market"
+        },
+        {
+          "id": "li_2",
+          "description": { "ru": "Вывоз грунта с площадки", "en": "Soil removal" },
+          "unit": "м³",
+          "qty": 80,
+          "rate": 800,
+          "total": 64000,
+          "source": "market"
+        }
+      ]
+    },
+    {
+      "name": { "ru": "Фундамент", "en": "Foundation" },
+      "items": [
+        {
+          "id": "li_3",
+          "description": { "ru": "Бетон M250 товарный", "en": "M250 ready-mix concrete" },
+          "unit": "м³",
+          "qty": 45,
+          "rate": 8500,
+          "total": 382500,
+          "source": "history"
+        },
+        {
+          "id": "li_4",
+          "description": { "ru": "Арматура A500C Ø12-16", "en": "Rebar A500C Ø12-16" },
+          "unit": "т",
+          "qty": 3.5,
+          "rate": 85000,
+          "total": 297500,
+          "source": "history"
+        }
+      ]
+    }
+  ],
+  "total": 798000,
+  "assumptions": [
+    "2 этажа, высота этажа 3.0 м, стены 380 мм кирпич",
+    "Фундамент — лента 600×1500 мм",
+    "Цены на бетон, арматуру, кирпич — из исторической базы фирмы"
+  ],
+  "clarifying_questions": [
+    "Тип кровли — металлочерепица или профнастил?",
+    "Окна ПВХ — 2-камерные или 3-камерные?"
+  ],
+  "status": "draft",
+  "created_at": "2026-04-12T14:30:00.000Z"
+}

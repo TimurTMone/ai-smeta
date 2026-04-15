@@ -1,0 +1,498 @@
+{
+  "project_slug": "karakol-ports",
+  "language_primary": "ru",
+  "language_secondary": "en",
+  "cover": {
+    "title": {
+      "ru": "ВОДНЫЙ ПУТЬ — ИССЫК-КУЛЬ: Шесть портов, одна экосистема.",
+      "en": "Issyk-Kul Water Route: Six ports, one ecosystem."
+    },
+    "subtitle": {
+      "ru": "Превращаем озеро из трёхмесячного курорта в круглогодичную экономику. Проект мирового уровня на родной земле.",
+      "en": "Turning the lake from a three-month resort into a year-round economy. A world-class project on native soil."
+    },
+    "hero_image": "images/cover.jpg",
+    "info_cards": [
+      {
+        "icon": "star",
+        "label": {"ru": "Проект", "en": "Project"},
+        "value": {"ru": "Создание 6-портового туристско-логистического кластера класса «А»", "en": "Creation of a 6-port class-A tourism & logistics cluster"}
+      },
+      {
+        "icon": "pin",
+        "label": {"ru": "Локация", "en": "Location"},
+        "value": {"ru": "Иссык-Кульская область, Кыргызская Республика", "en": "Issyk-Kul Oblast, Kyrgyz Republic"}
+      },
+      {
+        "icon": "money",
+        "label": {"ru": "Объём инвестиций", "en": "Investment"},
+        "value": {"ru": "$25–35 млн (6 траншей ГЧП)", "en": "$25M–$35M (6 PPP tranches)"}
+      },
+      {
+        "icon": "clock",
+        "label": {"ru": "Срок окупаемости", "en": "Payback horizon"},
+        "value": {"ru": "3–7 лет в зависимости от порта", "en": "3–7 years, port-dependent"}
+      }
+    ]
+  },
+  "problem": {
+    "title": {
+      "ru": "Озеро зарабатывает 3 месяца в году. Девять месяцев инфраструктура простаивает.",
+      "en": "The lake earns for 3 months a year. For 9 months, infrastructure sits idle."
+    },
+    "hero_image": "images/problem.jpg",
+    "points": [
+      {
+        "ru": "Туристический сезон ограничен 3 месяцами в году — инфраструктура простаивает 9 месяцев из 12",
+        "en": "Tourist season limited to 3 months — infrastructure sits idle 9 months of 12"
+      },
+      {
+        "ru": "Отсутствует премиальная инфраструктура: нет современных яхт-клубов, термальных центров, транспортных хабов",
+        "en": "No premium infrastructure: no modern yacht clubs, thermal centers, or transport hubs"
+      },
+      {
+        "ru": "Фрагментированный доступ к озеру — ни одна точка не является якорным хабом для междугороднего трафика",
+        "en": "Fragmented lake access — no single anchor hub for intercity traffic"
+      },
+      {
+        "ru": "Упущен логистический потенциал: железная дорога заканчивается у озера, но нет интеграции с водным транспортом",
+        "en": "Lost logistics potential: rail terminates at the lake but has no water-transport integration"
+      }
+    ]
+  },
+  "vision": {
+    "title": {
+      "ru": "6 брендов. 12 месяцев. Один туристический продукт.",
+      "en": "6 brands. 12 months. One tourism product."
+    },
+    "hero_image": "images/vision.jpg",
+    "body": {
+      "ru": "Шесть якорных портов по периметру озера, каждый со своим позиционированием — от фото-туризма до VIP-марины — объединённых водным такси. Термальные воды и горная интеграция продлевают сезон с 3 до 10–12 месяцев. Монополия на якорные точки = устойчивое 25-летнее преимущество.",
+      "en": "Six anchor ports around the lake, each with distinct positioning — from photo tourism to VIP marina — connected by water taxi. Thermal waters and mountain integration extend the season from 3 to 10–12 months. Monopoly on anchor points = a durable 25-year moat."
+    },
+    "bullets": [
+      {
+        "ru": "Шесть якорных хабов с уникальным позиционированием — от бюджетного фото-туризма до VIP-марины",
+        "en": "Six anchor hubs with distinct positioning — from budget photo-tourism to a VIP marina"
+      },
+      {
+        "ru": "Водное такси между портами создаёт сетевой эффект: одна поездка = доступ ко всему озеру",
+        "en": "Inter-port water taxi creates a network effect: one trip = access to the full lake"
+      },
+      {
+        "ru": "Монополия на якорные точки — устойчивое конкурентное преимущество на 25+ лет",
+        "en": "Monopoly on anchor points — durable 25+ year competitive moat"
+      },
+      {
+        "ru": "Логистический хаб в Балыкчы превращает железнодорожный тупик в мультимодальный узел",
+        "en": "The Balykchy logistics hub turns the rail terminus into a multimodal gateway"
+      }
+    ]
+  },
+  "map_slide": {
+    "title": {
+      "ru": "Шесть портов по периметру озера",
+      "en": "Six ports around the lake's perimeter"
+    },
+    "caption": {
+      "ru": "География проекта",
+      "en": "Project geography"
+    },
+    "hero_image": "images/map.jpg"
+  },
+  "ppp_model": {
+    "title": {
+      "ru": "Государственно-частное партнёрство",
+      "en": "Public-Private Partnership framework"
+    },
+    "legal_basis": {
+      "ru": "Закон КР «О государственно-частном партнёрстве», Водный кодекс, Кодекс об экологии — устанавливают санитарные зоны 100–500 м от береговой линии и обязательные очистные сооружения 50–100 м³/сутки на каждом объекте.",
+      "en": "KR Law on PPP, Water Code, Ecology Code — mandate 100–500m sanitary zones from the shore and 50–100 m³/day wastewater treatment at every site."
+    },
+    "state_obligations": [
+      {
+        "ru": "Выделение земельных участков вдоль береговой линии",
+        "en": "Allocation of shoreline plots"
+      },
+      {
+        "ru": "Подведение базовой инфраструктуры: дороги, электричество, вода",
+        "en": "Delivery of basic infrastructure: roads, power, water"
+      },
+      {
+        "ru": "Получение разрешений, экологических согласований, регуляторная поддержка",
+        "en": "Permits, environmental approvals, regulatory support"
+      },
+      {
+        "ru": "Гарантия долгосрочной аренды / концессии (25+ лет)",
+        "en": "Long-term lease / concession guarantee (25+ years)"
+      }
+    ],
+    "investor_obligations": [
+      {
+        "ru": "Капитальное строительство: причалы, терминалы, очистные сооружения",
+        "en": "Capital construction: piers, terminals, wastewater treatment"
+      },
+      {
+        "ru": "Операционное управление и поддержание качества услуг",
+        "en": "Operations and service quality maintenance"
+      },
+      {
+        "ru": "Соблюдение экологических норм и санитарных зон",
+        "en": "Compliance with environmental and sanitary standards"
+      },
+      {
+        "ru": "Создание рабочих мест для местного населения",
+        "en": "Local job creation"
+      }
+    ]
+  },
+  "items": [
+    {
+      "slug": "balykchy",
+      "name": {"ru": "Балыкчы", "en": "Balykchy"},
+      "concept_tag": {"ru": "Ворота Иссык-Куля", "en": "Gate of Issyk-Kul"},
+      "hero_image": "images/balykchy.jpg",
+      "tagline": {
+        "ru": "Единственный железнодорожный тупик на озере, превращённый в мультимодальный хаб.",
+        "en": "The only rail terminus on the lake, turned into a multimodal hub."
+      },
+      "investment_usd": "$4.5M",
+      "annual_revenue_usd": "$1.2M",
+      "payback_years": "4.5–5 лет",
+      "key_infrastructure": [
+        {"ru": "Современный грузовой терминал: перевалка с ж/д вагонов на суда", "en": "Modern cargo terminal: rail-to-ship transfer"},
+        {"ru": "Станция водного такси, ремонтный док", "en": "Water-taxi station, ship repair dock"},
+        {"ru": "Этно-туристическая зона «Кочевой берег»", "en": "Ethno-tourism zone «Nomad Shore»"},
+        {"ru": "Кафе «Sailor's Coffee», капсульный отель", "en": "«Sailor's Coffee» café, capsule hotel"}
+      ],
+      "revenue_mix": [
+        {"ru": "Логистика — 50%", "en": "Logistics — 50%"},
+        {"ru": "Аренда и сервис — 30%", "en": "Rentals & services — 30%"},
+        {"ru": "Водное такси — 20%", "en": "Water taxi — 20%"}
+      ],
+      "target_segment": {
+        "ru": "Грузоотправители, транзитные пассажиры, этно-туристы",
+        "en": "Cargo shippers, transit passengers, ethno-tourists"
+      },
+      "differentiator": {
+        "ru": "Монополия на ж/д-морскую перевалку снижает стоимость транспорта до 50%. Захватывает 70% трансконтинентального пассажиропотока.",
+        "en": "Monopoly on rail-to-water transfer cuts transport cost by up to 50%. Captures 70% of transcontinental passenger flow."
+      }
+    },
+    {
+      "slug": "cholpon-ata",
+      "name": {"ru": "Чолпон-Ата", "en": "Cholpon-Ata"},
+      "concept_tag": {"ru": "Королевская марина", "en": "Royal Marina"},
+      "hero_image": "images/cholpon-ata.jpg",
+      "tagline": {
+        "ru": "Самый современный яхт-клуб Центральной Азии — «Бермуды озера Иссык-Куль».",
+        "en": "Central Asia's most modern yacht club — «The Issyk-Kul Bermuda»."
+      },
+      "investment_usd": "$8.5M–$12M",
+      "annual_revenue_usd": "$2.5M–$3.5M",
+      "payback_years": "3.5–4 года",
+      "key_infrastructure": [
+        {"ru": "Марина на 150–200 яхт: электричество, вода, Wi-Fi", "en": "150–200 berth marina with power, water, Wi-Fi"},
+        {"ru": "Ресторан «The Wave», Sky Bar, этно-бутики", "en": "«The Wave» restaurant, Sky Bar, ethno-boutiques"},
+        {"ru": "Плавучий спа-центр, вертолётная площадка", "en": "Floating spa center, helicopter terminal"},
+        {"ru": "4–5★ отельная инфраструктура", "en": "4–5★ hotel infrastructure"}
+      ],
+      "revenue_mix": [
+        {"ru": "Причаливание яхт — 40%", "en": "Yacht mooring — 40%"},
+        {"ru": "Ресторан и VIP-сервис — 40%", "en": "Restaurant & VIP services — 40%"},
+        {"ru": "Аренда — 20%", "en": "Rentals — 20%"}
+      ],
+      "target_segment": {
+        "ru": "Премиум-туристы Центральной Азии, яхт-владельцы, корпоративные клиенты",
+        "en": "Premium Central Asian tourists, yacht owners, corporate clients"
+      },
+      "differentiator": {
+        "ru": "Богатые туристы Чолпон-Аты сегодня не имеют премиум-инфраструктуры. Отапливаемый спа продлевает сезон с 3 до 8 месяцев. Статусный актив для инвестора.",
+        "en": "Wealthy Cholpon-Ata tourists have no premium infrastructure today. A heated spa extends the season from 3 to 8 months. Status asset for the investor."
+      }
+    },
+    {
+      "slug": "tosor",
+      "name": {"ru": "Тосор", "en": "Tosor"},
+      "concept_tag": {"ru": "Insta-жемчужина", "en": "Insta-Pearl"},
+      "hero_image": "images/tosor.jpg",
+      "tagline": {
+        "ru": "Самая прозрачная вода озера и ворота к ущелью Жомок.",
+        "en": "The lake's clearest water and the gateway to Zhomok Canyon."
+      },
+      "investment_usd": "$1.5M–$2M",
+      "annual_revenue_usd": "$0.5M–$0.7M",
+      "payback_years": "3–4 года",
+      "key_infrastructure": [
+        {"ru": "«Insta-причал» — эстетический деревянный пирс с лодками со стеклянным дном", "en": "«Insta-Pier» — aesthetic wooden pier with glass-bottom boats"},
+        {"ru": "Пляжный клуб: безопасные мелководные зоны, кинотеатр под открытым небом", "en": "Beach club: safe shallow zones, open-air cinema"},
+        {"ru": "Кафе «Tosor Terrace», арт-магазин", "en": "«Tosor Terrace» café, art shop"},
+        {"ru": "Подводные туры и фото-зоны", "en": "Underwater tours and photo zones"}
+      ],
+      "revenue_mix": [
+        {"ru": "Экскурсии — 40%", "en": "Excursions — 40%"},
+        {"ru": "Ресторан — 30%", "en": "Restaurant — 30%"},
+        {"ru": "Фото-зоны и аренда — 30%", "en": "Photo zones & rentals — 30%"}
+      ],
+      "target_segment": {
+        "ru": "Семейные туристы, блогеры, молодые фото-туристы, автомобильный поток к ущелью Жомок",
+        "en": "Family tourists, bloggers, young photo-tourists, car traffic to Zhomok canyon"
+      },
+      "differentiator": {
+        "ru": "Самая быстрая окупаемость портфеля. Стратегия низкого капекса: эстетика вместо тяжёлой инфраструктуры. Тысячи посетителей ущелья вынуждены останавливаться здесь — гарантированный трафик.",
+        "en": "Fastest payback in the portfolio. Low-capex strategy: aesthetics over heavy infrastructure. Thousands of canyon visitors must stop here — guaranteed traffic."
+      }
+    },
+    {
+      "slug": "ton",
+      "name": {"ru": "Тон", "en": "Ton"},
+      "concept_tag": {"ru": "Кочевой спорт", "en": "Nomad Sport"},
+      "hero_image": "images/ton.jpg",
+      "tagline": {
+        "ru": "Центр кайтсёрфинга Центральной Азии + люкс-юрты и этно-шоу.",
+        "en": "Central Asia's kitesurfing center + luxury yurts and ethno-shows."
+      },
+      "investment_usd": "$2.5M–$3.5M",
+      "annual_revenue_usd": "$0.8M–$1.2M",
+      "payback_years": "3.5–4.5 года",
+      "key_infrastructure": [
+        {"ru": "Длинные деревянные причалы, центр кайт- и виндсёрфинга", "en": "Long wooden piers, Kite & Windsurfing Center"},
+        {"ru": "20–30 люкс-юрт со всеми удобствами", "en": "20–30 luxury yurts with full amenities"},
+        {"ru": "Чайхана «Боз-Салкын», ремесленная деревня", "en": "«Boz-Salkin» teahouse, artisan village"},
+        {"ru": "Школа водных видов спорта", "en": "Water sports school"}
+      ],
+      "revenue_mix": [
+        {"ru": "Глэмпинг и размещение — 50%", "en": "Glamping & accommodation — 50%"},
+        {"ru": "Водный спорт и аренда — 30%", "en": "Water sports & rentals — 30%"},
+        {"ru": "Этно-шоу — 20%", "en": "Ethno-shows — 20%"}
+      ],
+      "target_segment": {
+        "ru": "Семьи с детьми, кайтсёрферы, любители этно-аутентичного опыта",
+        "en": "Families, kitesurfers, authentic-experience seekers"
+      },
+      "differentiator": {
+        "ru": "Песчаный мелководный берег — идеально для семей и виндсёрферов. Ветры Тона — природное конкурентное преимущество. Низкая конкуренция на южном берегу.",
+        "en": "Sandy shallow shore — ideal for families and windsurfers. Ton's winds are a natural competitive advantage. Low competition on the south shore."
+      }
+    },
+    {
+      "slug": "kyzyl-suu",
+      "name": {"ru": "Кызыл-Суу", "en": "Kyzyl-Suu"},
+      "concept_tag": {"ru": "Агро-термальный хаб", "en": "Agro-Thermal Hub"},
+      "hero_image": "images/kyzyl-suu.jpg",
+      "tagline": {
+        "ru": "Термальные ванны и ворота к Жеты-Огуз — круглогодичная работа.",
+        "en": "Thermal baths and the gateway to Jety-Oguz — year-round operation."
+      },
+      "investment_usd": "$0.8M",
+      "annual_revenue_usd": "требует уточнения · TBD",
+      "payback_years": "требует уточнения · TBD",
+      "key_infrastructure": [
+        {"ru": "150-метровый L-образный пирс — $350K", "en": "150m L-shaped pier — $350K"},
+        {"ru": "Термальный спа-комплекс — $200K", "en": "Thermal spa complex — $200K"},
+        {"ru": "VIP-коттеджи — $150K", "en": "VIP cottages — $150K"},
+        {"ru": "Коммуникации и очистные — $100K", "en": "Utilities & treatment — $100K"}
+      ],
+      "revenue_mix": [
+        {"ru": "Термальный спа", "en": "Thermal spa"},
+        {"ru": "VIP-коттеджи", "en": "VIP cottages"},
+        {"ru": "Трансфер-хаб: джипы и конные туры к Жеты-Огуз", "en": "Transfer hub: jeep and horseback tours to Jety-Oguz"}
+      ],
+      "target_segment": {
+        "ru": "Wellness-туристы, туристы Жеты-Огуз и плато Кёк-Жайык",
+        "en": "Wellness tourists, visitors of Jety-Oguz and Kok-Zhayyk plateau"
+      },
+      "differentiator": {
+        "ru": "Природная монополия на термальные воды южного берега. Самый низкий капекс портфеля — минимальный риск. Круглогодичная работа благодаря термальным источникам.",
+        "en": "Natural monopoly on south-shore thermal waters. Lowest capex in the portfolio — minimum risk. Year-round operation thanks to the thermal springs."
+      }
+    },
+    {
+      "slug": "karakol",
+      "name": {"ru": "Каракол", "en": "Karakol"},
+      "concept_tag": {"ru": "Эко-приключение", "en": "Eco-Adventure"},
+      "hero_image": "images/karakol.jpg",
+      "tagline": {
+        "ru": "Единственный порт с интеграцией горнолыжки и озера — ski-to-boat.",
+        "en": "The only port integrating the ski base and the lake — ski-to-boat."
+      },
+      "investment_usd": "$4M–$6M",
+      "annual_revenue_usd": "$1.5M",
+      "payback_years": "5–6 лет",
+      "key_infrastructure": [
+        {"ru": "Плавучие эко-кабины, солнечные лодки, кайак-центр", "en": "Floating eco-cabins, solar boats, kayak center"},
+        {"ru": "Чайхана «Ordo», академия рыбной ловли", "en": "«Ordo» teahouse, fishing academy"},
+        {"ru": "Зимняя интеграция: пакет «ski-to-boat»", "en": "Winter integration: «ski-to-boat» package"},
+        {"ru": "Эко-отели, научно-исследовательская инфраструктура", "en": "Eco-hotels, scientific research infrastructure"}
+      ],
+      "revenue_mix": [
+        {"ru": "Эко-отели — 50%", "en": "Eco-hotels — 50%"},
+        {"ru": "Туры и аренда — 30%", "en": "Tours & rentals — 30%"},
+        {"ru": "Ресторан — 20%", "en": "Restaurant — 20%"}
+      ],
+      "target_segment": {
+        "ru": "Эко-туристы, лыжники, учёные, премиум-клиенты ESG-сегмента",
+        "en": "Eco-tourists, skiers, scientists, ESG-premium clients"
+      },
+      "differentiator": {
+        "ru": "Уникальное зимнее преимущество через горнолыжную базу Каракол. Сильный ESG-профиль открывает доступ к «зелёным» грантам ЕБРР.",
+        "en": "Unique winter advantage via the Karakol ski base. A strong ESG profile unlocks EBRD green grants."
+      }
+    }
+  ],
+  "strategic_matrix": {
+    "title": {
+      "ru": "Стратегическое позиционирование 6 портов",
+      "en": "Strategic positioning of the 6 ports"
+    },
+    "subtitle": {
+      "ru": "Каждый порт занимает уникальную клетку в матрице «капекс × премиальность» — каннибализации между объектами нет.",
+      "en": "Each port occupies a unique cell in the capex × premium matrix — zero cannibalization between sites."
+    },
+    "x_label": {"ru": "Объём инвестиций →", "en": "Capital investment →"},
+    "y_label": {"ru": "Уровень премиальности →", "en": "Premium level →"},
+    "quadrant_tl": {"ru": "Премиум-ниши малой капитализации", "en": "Lean premium"},
+    "quadrant_tr": {"ru": "Якорь портфеля · Flagship", "en": "Portfolio anchor"},
+    "quadrant_bl": {"ru": "Быстрая окупаемость · Fast payback", "en": "Fast payback"},
+    "quadrant_br": {"ru": "Массовая инфраструктура", "en": "Mass infrastructure"},
+    "dots": [
+      {"item_slug": "kyzyl-suu",   "x": 8,  "y": 42},
+      {"item_slug": "tosor",       "x": 18, "y": 22},
+      {"item_slug": "ton",         "x": 32, "y": 52},
+      {"item_slug": "balykchy",    "x": 50, "y": 18},
+      {"item_slug": "karakol",     "x": 58, "y": 74},
+      {"item_slug": "cholpon-ata", "x": 88, "y": 92}
+    ],
+    "takeaway": {
+      "ru": "Чолпон-Ата — якорь портфеля (самая высокая выручка). Тосор и Кызыл-Суу — самые быстрые окупаемости при минимальном капексе. Все шесть дополняют друг друга.",
+      "en": "Cholpon-Ata anchors the portfolio (highest revenue). Tosor and Kyzyl-Suu deliver the fastest payback with minimal capex. All six are complementary."
+    }
+  },
+  "financial_summary": {
+    "title": {
+      "ru": "Сводная финансовая модель проекта",
+      "en": "Consolidated project financials"
+    },
+    "total_investment": "$25M – $35M",
+    "blended_payback": "5–7 лет · years",
+    "currency_note": {
+      "ru": "USD. Данные по исходным документам бизнес-плана. НДС, накладные и прибыль подрядчика не включены.",
+      "en": "USD. Figures per business-plan source documents. VAT, overhead and contractor margin not included."
+    },
+    "items_breakdown": [
+      {"item_slug": "balykchy",    "investment": "$4.5M",       "revenue": "$1.2M",        "payback": "4.5–5 лет"},
+      {"item_slug": "cholpon-ata", "investment": "$8.5M–$12M",  "revenue": "$2.5M–$3.5M",  "payback": "3.5–4 года"},
+      {"item_slug": "tosor",       "investment": "$1.5M–$2M",   "revenue": "$0.5M–$0.7M",  "payback": "3–4 года"},
+      {"item_slug": "ton",         "investment": "$2.5M–$3.5M", "revenue": "$0.8M–$1.2M",  "payback": "3.5–4.5 года"},
+      {"item_slug": "kyzyl-suu",   "investment": "$0.8M",       "revenue": "—",            "payback": "—"},
+      {"item_slug": "karakol",     "investment": "$4M–$6M",     "revenue": "$1.5M",        "payback": "5–6 лет"}
+    ]
+  },
+  "roadmap": {
+    "title": {
+      "ru": "Дорожная карта реализации 2026–2029",
+      "en": "Implementation roadmap 2026–2029"
+    },
+    "phases": [
+      {
+        "phase_number": 1,
+        "name": {"ru": "Подготовка и разрешения", "en": "Preparation & permits"},
+        "duration": {"ru": "Q1 2026 – Q3 2026", "en": "Q1 2026 – Q3 2026"},
+        "deliverables": [
+          {"ru": "Выделение земельных участков", "en": "Land allocation"},
+          {"ru": "Экологические согласования", "en": "Environmental approvals"},
+          {"ru": "Привлечение инвесторов", "en": "Investor onboarding"}
+        ]
+      },
+      {
+        "phase_number": 2,
+        "name": {"ru": "Проектирование", "en": "Engineering"},
+        "duration": {"ru": "Q4 2026 – Q2 2027", "en": "Q4 2026 – Q2 2027"},
+        "deliverables": [
+          {"ru": "Архитектурные проекты 6 портов", "en": "Architecture for 6 ports"},
+          {"ru": "Рабочая документация", "en": "Working docs"},
+          {"ru": "Тендеры подрядчиков", "en": "Contractor tenders"}
+        ]
+      },
+      {
+        "phase_number": 3,
+        "name": {"ru": "Строительство", "en": "Construction"},
+        "duration": {"ru": "Q3 2027 – Q2 2029", "en": "Q3 2027 – Q2 2029"},
+        "deliverables": [
+          {"ru": "Поэтапное возведение объектов", "en": "Phased construction"},
+          {"ru": "Интеграция инженерных сетей", "en": "Utilities integration"},
+          {"ru": "Пилот водного такси", "en": "Water-taxi pilot"}
+        ]
+      },
+      {
+        "phase_number": 4,
+        "name": {"ru": "Запуск и операции", "en": "Launch & operations"},
+        "duration": {"ru": "Q3 2029 →", "en": "Q3 2029 →"},
+        "deliverables": [
+          {"ru": "Открытие портов", "en": "Ports open"},
+          {"ru": "Маркетинг и брендинг", "en": "Marketing & branding"},
+          {"ru": "Выход на плановую выручку", "en": "Reach target revenue"}
+        ]
+      }
+    ]
+  },
+  "team": {
+    "title": {
+      "ru": "Государственная поддержка и партнёры",
+      "en": "State support and partners"
+    },
+    "entities": [
+      {"ru": "Правительство Иссык-Кульской области", "en": "Government of Issyk-Kul Oblast"},
+      {"ru": "Государственное предприятие «ЭУК»", "en": "State Enterprise «EUK»"},
+      {"ru": "Министерство экономики и коммерции КР", "en": "KR Ministry of Economy & Commerce"},
+      {"ru": "Министерство природных ресурсов, экологии и технадзора", "en": "Ministry of Natural Resources & Ecology"},
+      {"ru": "Агентство продвижения и защиты инвестиций КР", "en": "KR Investment Promotion & Protection Agency"},
+      {"ru": "Потенциальные партнёры: ЕБРР, АБР, частные инвесторы ЦА", "en": "Potential partners: EBRD, ADB, private Central Asian investors"}
+    ],
+    "note": {
+      "ru": "Проект реализуется в рамках государственной программы развития туризма Кыргызской Республики",
+      "en": "Project delivered under the KR state tourism development program"
+    }
+  },
+  "image_credits": [
+    {"file": "cover.jpg", "source": "Wikimedia Commons", "author": "Mzximvs VdB", "license": "CC BY-SA 2.0", "url": "https://commons.wikimedia.org/wiki/File:Issyk-Kul_lake_sunset_(15125671492).jpg"},
+    {"file": "vision.jpg", "source": "Wikimedia Commons", "author": "Бек Гулиев", "license": "CC BY-SA 4.0", "url": "https://commons.wikimedia.org/wiki/File:Bosteri_(06.2022)_Lake_Issyk-Kul.jpg"},
+    {"file": "problem.jpg", "source": "Wikimedia Commons", "author": "Marc Veraart", "license": "CC BY 2.0", "url": "https://commons.wikimedia.org/wiki/File:Beach_in_Kurskoe,_Kirghizistan_02.jpg"},
+    {"file": "map.jpg", "source": "ESA Copernicus Sentinel-2", "author": "European Space Agency", "license": "CC BY-SA 3.0 IGO", "url": "https://commons.wikimedia.org/wiki/File:Extreme_cold_weather_freezes_Issyk-Kul_lake.jpg"},
+    {"file": "balykchy.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Lake_Issyk-Kul,_Kyrgyzstan.jpg"},
+    {"file": "cholpon-ata.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Issyk-Kul_Lake_(2017)_01.jpg"},
+    {"file": "tosor.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Colorful_rock_formations_on_south_shore_of_Issy-Kol.jpg"},
+    {"file": "ton.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Issyk-Kul_beach.jpg"},
+    {"file": "kyzyl-suu.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Seven_Bulls_Mountains_(4224442306).jpg"},
+    {"file": "karakol.jpg", "source": "Wikimedia Commons", "author": "Unknown", "license": "CC BY-SA", "url": "https://commons.wikimedia.org/wiki/File:Karakol_mountain_view.jpg"}
+  ],
+  "ask": {
+    "title": {"ru": "Запрос к Правительству", "en": "The ask to the Government"},
+    "headline": {
+      "ru": "Одобрить ГЧП-рамку и выделить 6 земельных контуров до Q3 2026.",
+      "en": "Approve the PPP framework and allocate the 6 land plots by Q3 2026."
+    },
+    "supporting_points": [
+      {
+        "ru": "Официальное одобрение «Водного пути Иссык-Куль — 2026» как приоритетного проекта Иссык-Кульской области",
+        "en": "Official endorsement of «Issyk-Kul Water Route 2026» as a priority project of Issyk-Kul Oblast"
+      },
+      {
+        "ru": "Утверждение земельных контуров под каждый из 6 портов согласно техническим условиям",
+        "en": "Approval of the land plots for each of the 6 ports per technical specifications"
+      },
+      {
+        "ru": "Назначение ответственного государственного координатора для запуска ГЧП-процедур",
+        "en": "Designation of a state coordinator to launch PPP procedures"
+      },
+      {
+        "ru": "Содействие в привлечении стратегических инвесторов: ЕБРР, АБР, частные партнёры",
+        "en": "Support in attracting strategic investors: EBRD, ADB, private partners"
+      }
+    ],
+    "contact": {
+      "ru": "Контактное лицо — уточняется",
+      "en": "Primary contact — to be specified"
+    }
+  }
+}
