@@ -1,0 +1,195 @@
+{
+  "brand": {
+    "name": "Ai-Smeta",
+    "tagline": "One tool for builders",
+    "description": "AI-generated construction estimates and investor pitch decks"
+  },
+  "nav": {
+    "how_it_works": "How it works",
+    "pricing": "Pricing",
+    "demo": "Demo",
+    "login": "Sign in",
+    "signup": "Get started",
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "settings": "Settings",
+    "logout": "Sign out",
+    "admin": "Admin"
+  },
+  "marketing": {
+    "hero": {
+      "eyebrow": "For CIS builders",
+      "title": "Smetas and investor decks — in minutes, not days.",
+      "subtitle": "A voice note or a .docx goes in. A polished document comes out. One tool, two of construction's biggest bottlenecks.",
+      "cta_primary": "Start free",
+      "cta_secondary": "Watch the demo"
+    },
+    "features": {
+      "title": "Two modules, one platform",
+      "smeta_title": "AI Smeta",
+      "smeta_body": "Send a voice note or text — get a line-itemed cost estimate with cited rates. Edit, approve, export to Excel.",
+      "deck_title": "Investor pitch deck",
+      "deck_body": "Upload a .docx brief — get a 17-slide bilingual deck in McKinsey style. Download as PDF.",
+      "rates_title": "Your firm's rate database",
+      "rates_body": "Every approved Smeta strengthens your private rate catalog. More projects — smarter AI."
+    },
+    "how": {
+      "title": "How it works",
+      "step1_title": "Upload materials",
+      "step1_body": "Voice, text, .docx, photos — whatever you have, send it.",
+      "step2_title": "AI drafts it",
+      "step2_body": "Claude Sonnet 4.6 structures the data and prepares a draft.",
+      "step3_title": "You review and approve",
+      "step3_body": "Edit lines, approve, export. Document ready."
+    },
+    "cta": {
+      "title": "Ready to move 10× faster?",
+      "subtitle": "Sign up, upload your first project — free during beta.",
+      "button": "Start free"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "subtitle": "Free during closed beta for early customers. Get in touch.",
+      "contact": "Contact us"
+    },
+    "demo": {
+      "title": "Live demo",
+      "subtitle": "See a real pitch deck prepared via Ai-Smeta for the governor of Issyk-Kul Oblast.",
+      "open_full": "Open full-screen"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to Ai-Smeta",
+      "subtitle": "Enter your email — we'll send you a sign-in link.",
+      "email_label": "Email",
+      "email_placeholder": "name@company.kg",
+      "submit": "Send link",
+      "back_to_home": "Back to home"
+    },
+    "verify": {
+      "title": "Check your email",
+      "subtitle": "We sent a sign-in link to {email}. Open it to sign in.",
+      "try_again": "Send again"
+    },
+    "errors": {
+      "invalid_email": "Please enter a valid email",
+      "unknown": "Something went wrong. Please try again."
+    },
+    "dev_banner": {
+      "title": "Development mode",
+      "body": "Magic link:"
+    }
+  },
+  "app": {
+    "dashboard": {
+      "greeting_morning": "Good morning",
+      "greeting_afternoon": "Good afternoon",
+      "greeting_evening": "Good evening",
+      "recent_projects": "Recent projects",
+      "empty_title": "Start your first project",
+      "empty_body": "Create a Smeta or an investor deck in minutes.",
+      "new_smeta": "New Smeta",
+      "new_deck": "New Deck"
+    },
+    "projects": {
+      "title": "Projects",
+      "new": "New project",
+      "search_placeholder": "Search projects…",
+      "filter_all": "All",
+      "filter_smeta": "Smetas",
+      "filter_deck": "Decks",
+      "filter_draft": "Drafts",
+      "filter_ready": "Ready",
+      "empty_title": "No projects yet",
+      "empty_body": "Start by creating a new project."
+    },
+    "new_project": {
+      "title": "New project",
+      "subtitle": "Choose a type — Smeta or investor deck.",
+      "smeta_title": "Smeta",
+      "smeta_body": "Line-itemed cost estimate for a construction project. AI drafts it, you approve.",
+      "deck_title": "Investor pitch deck",
+      "deck_body": "Multi-slide deck in McKinsey style. Bilingual RU+EN.",
+      "name_label": "Project name",
+      "name_placeholder": "e.g. House 120 m², Bishkek",
+      "create": "Create"
+    },
+    "deck": {
+      "upload": "Upload .docx",
+      "preview": "Preview",
+      "download_pdf": "Download PDF",
+      "sections": {
+        "cover": "Cover",
+        "problem": "Problem",
+        "vision": "Vision",
+        "map": "Map",
+        "ppp": "PPP",
+        "items": "Items",
+        "financial": "Financials",
+        "roadmap": "Roadmap",
+        "team": "Team",
+        "ask": "Ask"
+      }
+    },
+    "smeta": {
+      "add_line": "Add line",
+      "import_voice": "Record voice",
+      "total": "Total",
+      "export_xlsx": "Export to Excel",
+      "export_pdf": "Export to PDF"
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": "Profile",
+      "language": "Interface language",
+      "organization": "Organization",
+      "billing": "Plan",
+      "billing_stub": "All features are free during the beta."
+    }
+  },
+  "admin": {
+    "nav": {
+      "overview": "Overview",
+      "users": "Users",
+      "projects": "Projects",
+      "rates": "Rate database",
+      "jobs": "Job queue",
+      "templates": "Templates",
+      "logs": "Activity log"
+    },
+    "users": {
+      "title": "Users",
+      "col_email": "Email",
+      "col_role": "Role",
+      "col_org": "Organization",
+      "col_last": "Last sign-in",
+      "col_actions": "Actions",
+      "action_impersonate": "Sign in as",
+      "action_deactivate": "Deactivate"
+    },
+    "rates": {
+      "title": "Rate database",
+      "subtitle": "The firm's moat — more approved Smetas = smarter AI.",
+      "col_material": "Material",
+      "col_unit": "Unit",
+      "col_price": "Price",
+      "col_region": "Region",
+      "col_source": "Source",
+      "col_observed": "Date"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading…",
+    "error": "Error",
+    "retry": "Retry",
+    "copied": "Copied"
+  }
+}
