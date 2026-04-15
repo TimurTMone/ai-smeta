@@ -6,7 +6,14 @@ Built for construction firms in the CIS region (initial market: Kyrgyzstan + Rus
 
 ## Live demo
 
-The first real deck — **Issyk-Kul Water Route 2026** (6 ports · 17 slides · RU+EN bilingual) — renders at the root URL of any Vercel deployment of this repo. Navigation: ← → arrow keys, or tap **PDF** to export.
+The **Next.js web platform** (`/web`) includes:
+- Marketing site at `/` with hero + features + demo + pricing
+- Authenticated user app: dashboard, projects, deck editor, Smeta editor, settings
+- Admin panel: users, rates database, jobs, templates, logs
+- 3-locale UI (Kyrgyz, Russian, English)
+- The **Issyk-Kul Water Route 2026** deck embedded at `/ru/demo` and as seed data in the deck editor
+
+The first real deck (6 ports · 17 slides · RU+EN bilingual) also renders standalone at `/demo-deck/presentation.html`. Navigation: ← → arrow keys, or tap **PDF** to export.
 
 ## The wedge
 
@@ -20,6 +27,20 @@ Ai-Smeta compresses both to minutes. Same voice notes, same client docs, same ra
 ## What's in this repo
 
 ```
+web/                      Next.js 16 web platform — marketing + app + admin
+  src/
+    app/[locale]/         3-locale routing (ky/ru/en)
+      (marketing)/        Public landing + pricing + demo
+      (auth)/             Login + magic-link verify
+      (app)/              Authenticated user workspace
+      (admin)/            Admin panel (role=admin guarded)
+    lib/api/              API facade (mock | real selector)
+    types/                TypeScript contract (source of truth)
+    lib/auth/             JWT helpers via jose
+    components/ui/        CVA primitives (button, card, table, ...)
+    i18n/                 ky/ru/en dictionaries
+  docs/api-contract.md    Handoff doc for the backend teammate
+
 backend/
   app/
     agent.py              Claude Smeta agent (transcript → structured Smeta)
@@ -111,22 +132,31 @@ The generated HTML is self-contained and exports cleanly to PDF via the browser'
 
 ## Deployment
 
-This repo deploys to **Vercel** as a static site with zero configuration:
+### Next.js web app (`/web`) — recommended
 
 1. Import the repo at [vercel.com/new](https://vercel.com/new)
-2. No build command, no output directory — it's static HTML
-3. Vercel serves `index.html` at the root, which redirects to `Karakol/presentation.html`
-4. Relative image paths (`images/cover.jpg`) resolve inside the `Karakol/` folder
+2. **Root Directory: `web`**
+3. Framework preset: Next.js (auto-detected)
+4. Environment variables:
+   - `JWT_SECRET` — generate with `openssl rand -base64 32`
+   - `NEXT_PUBLIC_API_MODE=mock` (or `real` once backend is deployed)
+5. Deploy → you'll get a URL like `https://ai-smeta.vercel.app`
 
-The Telegram bot and the (future) web app are separate deployments, each backed by Supabase.
+The Karakol demo deck is included at `/demo-deck/presentation.html` (public static) and embedded via iframe at `/ru/demo`.
+
+### Static-only demo (legacy)
+
+If you prefer to deploy just the Karakol HTML deck without the full Next.js app, delete `web/` and set Root Directory to `/` — Vercel will serve the root `index.html` which redirects to `Karakol/presentation.html`.
 
 ## Status
 
 - ✅ Deck generator end-to-end (schema → ingest → Jinja2 template → HTML)
 - ✅ First real deck: **Issyk-Kul Water Route 2026** — 17 slides, bilingual RU+EN
 - ✅ Crystal Diving visual system matched (cream + gold + ornamental borders + gold takeaway footer bars)
+- ✅ **Next.js web platform v1** — marketing + app + admin with full mock backend
+- ✅ API contract defined, backend handoff document ready (`docs/api-contract.md`)
 - 🚧 Smeta Telegram bot scaffolded — blocked on API keys
-- 📋 Web app not started — Next.js + Supabase auth planned
+- 📋 Real backend (FastAPI) — in teammate's hands, implements `web/src/lib/api/real/*.ts` stubs
 
 ## License
 
