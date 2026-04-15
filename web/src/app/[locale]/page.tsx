@@ -47,11 +47,9 @@ export default async function HomePage({
                 {dict.nav.login}
               </Button>
             </Link>
-            <Link href={`/${locale}/login`}>
-              <Button size="sm">
-                {dict.nav.signup}
-              </Button>
-            </Link>
+            <a href={`/api/auth/demo?locale=${locale}`}>
+              <Button size="sm">{dict.nav.signup}</Button>
+            </a>
           </nav>
         </div>
       </header>
@@ -68,12 +66,12 @@ export default async function HomePage({
           {dict.marketing.hero.subtitle}
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link href={`/${locale}/login`}>
+          <a href={`/api/auth/demo?locale=${locale}`}>
             <Button size="lg">
               {dict.marketing.hero.cta_primary}
               <ArrowRight className="w-4 h-4" />
             </Button>
-          </Link>
+          </a>
           <Link href={`/${locale}/demo`}>
             <Button size="lg" variant="secondary">
               {dict.marketing.hero.cta_secondary}
@@ -162,12 +160,12 @@ export default async function HomePage({
         <p className="text-lg text-[var(--muted-foreground)] mb-8">
           {dict.marketing.cta.subtitle}
         </p>
-        <Link href={`/${locale}/login`}>
+        <a href={`/api/auth/demo?locale=${locale}`}>
           <Button size="lg">
             {dict.marketing.cta.button}
             <ArrowRight className="w-4 h-4" />
           </Button>
-        </Link>
+        </a>
       </section>
 
       {/* ===== Footer ===== */}

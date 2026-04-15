@@ -22,9 +22,9 @@ export default async function PricingPage({
             <span className="w-7 h-7 rounded-md bg-[var(--accent)] text-white grid place-items-center text-sm">◆</span>
             Ai-Smeta
           </Link>
-          <Link href={`/${locale}/login`}>
+          <a href={`/api/auth/demo?locale=${locale}`}>
             <Button size="sm">{dict.nav.signup}</Button>
-          </Link>
+          </a>
         </div>
       </header>
       <section className="max-w-3xl mx-auto px-6 py-24 text-center">

@@ -22,7 +22,32 @@ export default async function LoginPage({
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
           {dict.auth.login.subtitle}
         </p>
-        <div className="mt-6">
+
+        {/* One-click demo access — no email required */}
+        <a
+          href={`/api/auth/demo?locale=${locale}`}
+          className="mt-6 flex items-center justify-center w-full h-12 rounded-[var(--radius)] bg-[var(--accent)] text-white font-semibold hover:bg-[var(--accent-hover)] transition-colors shadow-sm"
+        >
+          {locale === "en"
+            ? "Try the demo → no sign-up needed"
+            : locale === "ky"
+              ? "Демону сынап көрүү → катталуу керек эмес"
+              : "Войти в демо → без регистрации"}
+        </a>
+
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-[var(--border)]" />
+          <div className="text-xs uppercase tracking-wider text-[var(--muted-foreground)] font-semibold">
+            {locale === "en"
+              ? "or sign in with email"
+              : locale === "ky"
+                ? "же email менен"
+                : "или войти по email"}
+          </div>
+          <div className="h-px flex-1 bg-[var(--border)]" />
+        </div>
+
+        <div>
           <LoginForm
             locale={locale}
             labels={{

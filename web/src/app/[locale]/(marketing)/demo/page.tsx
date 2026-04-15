@@ -29,9 +29,9 @@ export default async function DemoPage({
                 {dict.marketing.demo.open_full}
               </Button>
             </a>
-            <Link href={`/${locale}/login`}>
+            <a href={`/api/auth/demo?locale=${locale}`}>
               <Button size="sm">{dict.nav.signup}</Button>
-            </Link>
+            </a>
           </div>
         </div>
       </header>
