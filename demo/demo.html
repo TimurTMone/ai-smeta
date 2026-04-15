@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ai-Smeta — демо</title>
+<style>
+  :root {
+    --bg: #0e1621;
+    --panel: #17212b;
+    --bubble-in: #182533;
+    --bubble-out: #2b5278;
+    --text: #e7eef6;
+    --muted: #6b7a8a;
+    --accent: #4ea1f0;
+    --ok: #4bb24b;
+    --warn: #e0a64c;
+    --border: #223446;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #07101a; color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 420px 1fr; gap: 24px; }
+  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+
+  header { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; padding: 8px 4px 16px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  header h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  header .pill { display: inline-block; padding: 3px 9px; border-radius: 99px; background: #1f2d3c; color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-left: 8px; }
+
+  /* --- Telegram chat mock --- */
+  .phone { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; height: 760px; }
+  .phone-head { background: var(--panel); padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #4ea1f0, #2b5278); display: grid; place-items: center; font-weight: 700; color: #fff; font-size: 14px; }
+  .phone-head .name { font-weight: 600; }
+  .phone-head .status { color: var(--muted); font-size: 12px; }
+  .chat { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background-image: radial-gradient(circle at 20% 10%, #132236 0%, #0e1621 60%); }
+  .msg { max-width: 78%; padding: 9px 12px 7px; border-radius: 12px; font-size: 14px; word-wrap: break-word; }
+  .msg .time { display: block; text-align: right; color: var(--muted); font-size: 10px; margin-top: 3px; }
+  .in { background: var(--bubble-in); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .out { background: var(--bubble-out); align-self: flex-end; border-bottom-right-radius: 4px; color: #fff; }
+  .voice { display: flex; align-items: center; gap: 10px; min-width: 220px; }
+  .voice .play { width: 34px; height: 34px; border-radius: 50%; background: #fff2; display: grid; place-items: center; flex-shrink: 0; }
+  .voice .wave { flex: 1; height: 22px; background-image: linear-gradient(90deg, #ffffffaa 2px, transparent 2px); background-size: 5px 100%; background-repeat: repeat-x; background-position: 0 50%; mask-image: linear-gradient(90deg, #000 70%, transparent); }
+  .voice .dur { color: #ffffffcc; font-size: 11px; }
+  .kb { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .kb button { background: #1f2d3c; color: var(--accent); border: 1px solid #2b3d52; padding: 7px 11px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: default; }
+  .kb button.ok { color: var(--ok); }
+  .kb button.warn { color: var(--warn); }
+  .phone-foot { padding: 10px 14px; border-top: 1px solid var(--border); background: var(--panel); display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
+  .phone-foot .dot { width: 8px; height: 8px; background: var(--ok); border-radius: 50%; }
+
+  /* --- Right side: Smeta panel --- */
+  .smeta { background: #0b141e; border: 1px solid var(--border); border-radius: 18px; padding: 24px 28px; }
+  .smeta h2 { margin: 0 0 4px; font-size: 20px; }
+  .smeta .meta { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+  .smeta .meta span { margin-right: 16px; }
+  .smeta .meta b { color: var(--text); font-weight: 600; }
+  .smeta table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .smeta th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+  .smeta td { padding: 8px 6px; border-bottom: 1px solid #142233; vertical-align: top; }
+  .smeta tr.section td { padding-top: 18px; font-weight: 700; color: var(--accent); text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  .smeta tr.subtotal td { font-weight: 600; background: #0e1a28; }
+  .smeta .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .smeta .src { color: var(--muted); font-size: 11px; }
+  .smeta .src.hist { color: var(--ok); }
+  .smeta .src.market { color: var(--warn); }
+  .smeta .src.needs { color: #e55; }
+  .smeta .total-row td { padding-top: 18px; font-size: 16px; font-weight: 700; }
+  .smeta .total-row td.num { color: var(--accent); }
+  .assumptions { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .assumptions h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .assumptions ul { margin: 0; padding-left: 18px; color: #cbd5e1; font-size: 13px; }
+  .assumptions li { margin-bottom: 4px; }
+
+  .footnote { grid-column: 1 / -1; color: var(--muted); font-size: 12px; text-align: center; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Ai-Smeta<span class="pill">демо</span></h1>
+      <div class="sub">Голосовое сообщение → черновик сметы за 40 секунд. Кыргызский + русский.</div>
+    </div>
+    <div class="sub">Сценарий: жилой дом 120 м², Бишкек</div>
+  </header>
+
+  <!-- ============ LEFT: Telegram chat mock ============ -->
+  <div class="phone">
+    <div class="phone-head">
+      <div class="avatar">AS</div>
+      <div>
+        <div class="name">Ai-Smeta bot</div>
+        <div class="status">в сети</div>
+      </div>
+    </div>
+
+    <div class="chat">
+      <div class="msg in">
+        Привет! Я Ai-Smeta бот.<br><br>
+        Отправь голосовое сообщение с описанием объекта — я подготовлю черновик локальной сметы.<br><br>
+        Говори на русском или кыргызском (можно смешивать).
+        <span class="time">14:02</span>
+      </div>
+
+      <div class="msg out">
+        <div class="voice">
+          <div class="play">▶</div>
+          <div class="wave"></div>
+          <div class="dur">0:28</div>
+        </div>
+        <span class="time">14:03</span>
+      </div>
+
+      <div class="msg in">
+        🎧 Слушаю и расшифровываю…
+        <span class="time">14:03</span>
+      </div>
+
+      <div class="msg in">
+        Я услышал:<br><br>
+        «Керек смета, экинчи кабат үй, сто двадцать квадрат, Бишкек, жер-Арча. Фундамент ленточный, стены — кирпич, кровля металлочерепица. Окна пластик, отопление газ. Срок — сентябрь.»
+        <div class="kb">
+          <button class="ok">✅ Верно</button>
+          <button>✏️ Поправить</button>
+          <button>🔄 Перезаписать</button>
+        </div>
+        <span class="time">14:03</span>
+      </div>
+
+      <div class="msg in">
+        Генерирую смету… это займёт 20–40 секунд.
+        <span class="time">14:03</span>
+      </div>
+
+      <div class="msg in">
+        📋 <b>Черновик сметы: Жилой дом 120 м²</b><br>
+        Регион: Бишкек, Жер-Арча<br>
+        Валюта: KGS<br><br>
+        <b>Земляные работы</b>: 118 000<br>
+        <b>Фундамент</b>: 761 000<br>
+        <b>Несущие конструкции</b>: 867 000<br>
+        <b>Кровля</b>: 272 000<br>
+        <b>Отделка</b>: 623 400<br>
+        <b>Инженерные сети</b>: 804 000<br>
+        <b>Благоустройство</b>: 180 000<br><br>
+        <b>Итого: 3 625 400 KGS</b><br><br>
+        ⚠️ Это черновик. Каждая строка требует проверки сметчиком.
+        <div class="kb">
+          <button class="ok">✅ Утвердить</button>
+          <button class="warn">🔄 Переделать</button>
+        </div>
+        <span class="time">14:04</span>
+      </div>
+
+      <div class="msg in">
+        ✅ Смета утверждена и сохранена в базу фирмы.<br>
+        <span style="color:#6b7a8a; font-size:12px;">34 строки записаны в rate index.</span>
+        <span class="time">14:04</span>
+      </div>
+    </div>
+
+    <div class="phone-foot">
+      <div class="dot"></div>
+      <div>Whisper (ru+ky) → Claude Sonnet 4.6 → Supabase</div>
+    </div>
+  </div>
+
+  <!-- ============ RIGHT: Full Smeta table ============ -->
+  <div class="smeta">
+    <h2>Жилой дом 120 м² — черновик локальной сметы</h2>
+    <div class="meta">
+      <span>Регион: <b>Бишкек, Жер-Арча</b></span>
+      <span>Валюта: <b>KGS (сом)</b></span>
+      <span>Дата: <b>2026-04-14</b></span>
+      <span>Сметчик: <b>Ai-Smeta v0.1</b></span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Наименование</th>
+          <th>Ед.</th>
+          <th class="num">Кол-во</th>
+          <th class="num">Цена</th>
+          <th class="num">Сумма</th>
+          <th>Источник</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="section"><td colspan="6">1. Земляные работы</td></tr>
+        <tr>
+          <td>Разработка грунта экскаватором</td><td>м³</td>
+          <td class="num">120</td><td class="num">450</td><td class="num">54 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Вывоз грунта с площадки</td><td>м³</td>
+          <td class="num">80</td><td class="num">800</td><td class="num">64 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">118 000</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">2. Фундамент (ленточный)</td></tr>
+        <tr>
+          <td>Бетон M250 товарный</td><td>м³</td>
+          <td class="num">45</td><td class="num">8 500</td><td class="num">382 500</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr>
+          <td>Арматура A500C Ø12–16</td><td>т</td>
+          <td class="num">3.5</td><td class="num">85 000</td><td class="num">297 500</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr>
+          <td>Опалубка (аренда + монтаж)</td><td>м²</td>
+          <td class="num">180</td><td class="num">450</td><td class="num">81 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">761 000</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">3. Несущие конструкции</td></tr>
+        <tr>
+          <td>Кирпич керамический одинарный</td><td>шт</td>
+          <td class="num">22 000</td><td class="num">18</td><td class="num">396 000</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr>
+          <td>Раствор кладочный M100</td><td>м³</td>
+          <td class="num">30</td><td class="num">4 500</td><td class="num">135 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Ж/б перекрытие (плиты пустотные)</td><td>м²</td>
+          <td class="num">120</td><td class="num">2 800</td><td class="num">336 000</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">867 000</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">4. Кровля</td></tr>
+        <tr>
+          <td>Металлочерепица (лист + монтаж)</td><td>м²</td>
+          <td class="num">160</td><td class="num">850</td><td class="num">136 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Стропильная система (брус)</td><td>м³</td>
+          <td class="num">2.5</td><td class="num">18 000</td><td class="num">45 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Утеплитель мин. вата 150 мм</td><td>м²</td>
+          <td class="num">140</td><td class="num">650</td><td class="num">91 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">272 000</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">5. Отделка</td></tr>
+        <tr>
+          <td>Штукатурка стен (внутр. + наруж.)</td><td>м²</td>
+          <td class="num">480</td><td class="num">380</td><td class="num">182 400</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr>
+          <td>Полы (стяжка + финиш)</td><td>м²</td>
+          <td class="num">240</td><td class="num">950</td><td class="num">228 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Окна ПВХ 2-камерные</td><td>м²</td>
+          <td class="num">18</td><td class="num">6 500</td><td class="num">117 000</td>
+          <td class="src hist">историч. фирмы</td>
+        </tr>
+        <tr>
+          <td>Двери межкомнатные + входная</td><td>шт</td>
+          <td class="num">8</td><td class="num">12 000</td><td class="num">96 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">623 400</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">6. Инженерные сети</td></tr>
+        <tr>
+          <td>Электромонтаж (кабель + точки)</td><td>м²</td>
+          <td class="num">240</td><td class="num">850</td><td class="num">204 000</td>
+          <td class="src market">рыночная</td>
+        </tr>
+        <tr>
+          <td>Сантехника (санузлы, трубы, бойлер)</td><td>компл.</td>
+          <td class="num">1</td><td class="num">280 000</td><td class="num">280 000</td>
+          <td class="src needs">требует уточнения</td>
+        </tr>
+        <tr>
+          <td>Газовое отопление (котёл + разводка)</td><td>компл.</td>
+          <td class="num">1</td><td class="num">320 000</td><td class="num">320 000</td>
+          <td class="src needs">требует уточнения</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">804 000</td><td></td></tr>
+
+        <tr class="section"><td colspan="6">7. Благоустройство</td></tr>
+        <tr>
+          <td>Отмостка, забор, площадка (lump sum)</td><td>компл.</td>
+          <td class="num">1</td><td class="num">180 000</td><td class="num">180 000</td>
+          <td class="src needs">требует уточнения</td>
+        </tr>
+        <tr class="subtotal"><td colspan="4">Итого по разделу</td><td class="num">180 000</td><td></td></tr>
+
+        <tr class="total-row">
+          <td colspan="4">ИТОГО ПО СМЕТЕ</td>
+          <td class="num">3 625 400</td>
+          <td>KGS</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="assumptions">
+      <h3>Допущения агента</h3>
+      <ul>
+        <li>Принято: 2 этажа, высота этажа 3.0 м, стены 380 мм кирпич.</li>
+        <li>Фундамент — лента 600×1500 мм (глубина промерзания Бишкек).</li>
+        <li>Цены на арматуру, бетон, кирпич, штукатурку, окна — из исторической базы фирмы (9 проектов 2024–2025).</li>
+        <li>Сантехника/отопление/благоустройство — укрупнённо, требуют спецификации.</li>
+        <li>НДС, накладные расходы и прибыль подрядчика не включены.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footnote">
+    Ai-Smeta v0.1 · Whisper (ru+ky) · Claude Sonnet 4.6 · Supabase Postgres · Telegram bot<br>
+    Демо-сценарий на статических данных — для презентации клиенту
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+  "project_slug": "hotel-pair-demo",
+  "language_primary": "ru",
+  "language_secondary": "en",
+  "cover": {
+    "title": {"ru": "Два бутик-отеля в Бишкеке", "en": "Two boutique hotels in Bishkek"},
+    "subtitle": {"ru": "Смоук-тест: минимальный проект с двумя объектами для проверки масштабируемости шаблона.", "en": "Smoke test: minimal two-item project to verify template scalability."},
+    "info_cards": [
+      {"icon": "📍", "label": {"ru": "Локация", "en": "Location"}, "value": {"ru": "Бишкек, Кыргызстан", "en": "Bishkek, Kyrgyzstan"}},
+      {"icon": "💰", "label": {"ru": "Инвестиции", "en": "Investment"}, "value": {"ru": "$6 млн", "en": "$6M"}}
+    ]
+  },
+  "vision": {
+    "title": {"ru": "Два отеля — одна концепция", "en": "Two hotels — one concept"},
+    "body": {"ru": "Проверка, что шаблон корректно обрабатывает произвольное количество объектов — здесь всего два.", "en": "Verifying the template handles an arbitrary number of items — here, just two."},
+    "bullets": []
+  },
+  "items": [
+    {
+      "slug": "downtown",
+      "name": {"ru": "Отель Downtown", "en": "Downtown Hotel"},
+      "concept_tag": {"ru": "Деловой центр", "en": "Business hub"},
+      "tagline": {"ru": "4-звёздочный бизнес-отель в центре Бишкека.", "en": "4-star business hotel in central Bishkek."},
+      "investment_usd": "$3.5M",
+      "annual_revenue_usd": "$1.1M",
+      "payback_years": "4 года",
+      "key_infrastructure": [{"ru": "80 номеров, конференц-зал, фитнес", "en": "80 rooms, conference hall, gym"}],
+      "revenue_mix": [{"ru": "Размещение 80%", "en": "Rooms 80%"}, {"ru": "F&B 20%", "en": "F&B 20%"}],
+      "target_segment": {"ru": "Бизнес-путешественники", "en": "Business travelers"},
+      "differentiator": {"ru": "Единственный 4★ в радиусе 500 м от правительственного квартала", "en": "Only 4★ within 500m of the government quarter"}
+    },
+    {
+      "slug": "garden",
+      "name": {"ru": "Garden Boutique", "en": "Garden Boutique"},
+      "concept_tag": {"ru": "Бутик-резорт", "en": "Boutique resort"},
+      "tagline": {"ru": "Уютный бутик-отель у парка Ала-Тоо.", "en": "Cozy boutique hotel next to Ala-Too Park."},
+      "investment_usd": "$2.5M",
+      "annual_revenue_usd": "$0.7M",
+      "payback_years": "5 лет",
+      "key_infrastructure": [{"ru": "30 номеров, сад, ресторан", "en": "30 rooms, garden, restaurant"}],
+      "revenue_mix": [{"ru": "Размещение 60%", "en": "Rooms 60%"}, {"ru": "Ресторан 40%", "en": "Restaurant 40%"}],
+      "target_segment": {"ru": "Туристы премиум-сегмента", "en": "Premium tourists"},
+      "differentiator": {"ru": "Единственный бутик-формат в районе", "en": "Only boutique format in the district"}
+    }
+  ],
+  "financial_summary": {
+    "title": {"ru": "Сводные финансы", "en": "Consolidated financials"},
+    "total_investment": "$6M",
+    "blended_payback": "4.5 лет · years",
+    "currency_note": {"ru": "USD. Демо-цифры.", "en": "USD. Demo figures."},
+    "items_breakdown": [
+      {"item_slug": "downtown", "investment": "$3.5M", "revenue": "$1.1M", "payback": "4 года"},
+      {"item_slug": "garden",   "investment": "$2.5M", "revenue": "$0.7M", "payback": "5 лет"}
+    ]
+  },
+  "roadmap": {
+    "title": {"ru": "План реализации", "en": "Implementation plan"},
+    "phases": [
+      {"phase_number": 1, "name": {"ru": "Проектирование", "en": "Design"}, "duration": {"ru": "Q1 2026", "en": "Q1 2026"}, "deliverables": [{"ru": "Архитектурный проект", "en": "Architecture"}]},
+      {"phase_number": 2, "name": {"ru": "Строительство", "en": "Construction"}, "duration": {"ru": "Q2 2026 – Q4 2026", "en": "Q2 2026 – Q4 2026"}, "deliverables": [{"ru": "Возведение объектов", "en": "Building"}]},
+      {"phase_number": 3, "name": {"ru": "Запуск", "en": "Launch"}, "duration": {"ru": "Q1 2027", "en": "Q1 2027"}, "deliverables": [{"ru": "Открытие и маркетинг", "en": "Opening & marketing"}]}
+    ]
+  },
+  "ask": {
+    "title": {"ru": "Запрос", "en": "The ask"},
+    "headline": {"ru": "Финансирование в объёме $6M для двух объектов", "en": "$6M in financing for the two sites"},
+    "supporting_points": []
+  }
+}

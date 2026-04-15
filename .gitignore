@@ -1,0 +1,82 @@
+# ====================================================================
+# Secrets & environment
+# ====================================================================
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+
+# ====================================================================
+# Python
+# ====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+backend/.venv/
+backend/venv/
+
+# ====================================================================
+# Node / frontend (for future web app)
+# ====================================================================
+node_modules/
+.next/
+.vercel/
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ====================================================================
+# macOS
+# ====================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ====================================================================
+# IDE
+# ====================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ====================================================================
+# Client-confidential material — EXCLUDED from public repo
+# These files contain a real client's business plan and a third-party
+# pitch deck PDF. Do not publish. If you need to work on them across
+# machines, use a private sync (Dropbox / iCloud Drive / private repo).
+# ====================================================================
+Karakol/*.docx
+Karakol/*.pdf
+Karakol/Presentation.png
+Karakol/template_pages/
+Karakol/data/_raw/
+
+# ====================================================================
+# Generated / derived files
+# ====================================================================
+*.tmp
+*.bak
+backend/app/deck/examples/hotel_pair.html

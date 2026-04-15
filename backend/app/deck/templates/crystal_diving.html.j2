@@ -1,0 +1,2124 @@
+<!doctype html>
+<html lang="{{ deck.language_primary }}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{{ deck.cover.title.ru }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Crystal Diving palette — matched from the actual 14-slide deck */
+    --cream:       #f2ece0;
+    --cream-deep:  #ede5d4;
+    --cream-light: #f8f3e7;
+    --navy:        #0d2847;
+    --navy-2:      #143b62;
+    --navy-deep:   #081b32;
+    --slate:       #475569;
+    --gold:        #b89544;
+    --gold-2:      #d4a84a;
+    --gold-light:  #e8c373;
+    --rust:        #a8533d;
+    --teal:        #4a6b7c;
+
+    --text-dark:   #0d2847;
+    --text-slate:  #475569;
+    --text-mute:   #8a8578;
+    --text-light:  #ffffff;
+    --text-dim:    rgba(255, 255, 255, 0.75);
+
+    --border-light: rgba(13, 40, 71, 0.16);
+    --border-gold:  rgba(184, 149, 68, 0.38);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #1a1a1a;
+    color: var(--text-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .deck { display: flex; flex-direction: column; align-items: center; }
+
+  /* -----------------------------------------------------------
+     SLIDE BASE
+     ----------------------------------------------------------- */
+  .slide {
+    position: relative;
+    width: 1440px;
+    height: 810px;
+    overflow: hidden;
+    background: var(--cream);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    margin: 24px 0;
+    flex-shrink: 0;
+  }
+  /* Subtle cream texture on light slides */
+  .slide::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(232, 195, 115, 0.06), transparent 60%),
+      radial-gradient(ellipse at 0% 100%, rgba(13, 40, 71, 0.03), transparent 55%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Dark slide variant (cover, money reveal, section USPs) */
+  .slide.dark {
+    background: linear-gradient(140deg, var(--navy-deep) 0%, var(--navy) 55%, var(--navy-2) 100%);
+    color: var(--text-light);
+  }
+  .slide.dark::before {
+    background:
+      radial-gradient(ellipse at top left, rgba(184, 149, 68, 0.12), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(74, 107, 124, 0.14), transparent 60%);
+  }
+
+  /* Ornamental Kyrgyz-pattern borders in corners (simple geometric) */
+  .ornament {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    pointer-events: none;
+    opacity: 0.55;
+    z-index: 1;
+  }
+  .ornament svg { width: 100%; height: 100%; }
+  .ornament.tl { top: 16px; left: 16px; }
+  .ornament.tr { top: 16px; right: 16px; transform: scaleX(-1); }
+  .ornament.bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+  .ornament.br { bottom: 16px; right: 16px; transform: scale(-1, -1); }
+
+  @media screen {
+    .slide {
+      transform-origin: top center;
+      transform: scale(var(--scale, 1));
+    }
+    .deck { padding-bottom: 60px; }
+  }
+  @media print {
+    @page { size: 1440px 810px; margin: 0; }
+    html, body { background: var(--cream); }
+    .slide { margin: 0; box-shadow: none; page-break-after: always; break-after: page; transform: none !important; }
+    .deck-nav { display: none !important; }
+  }
+
+  /* -----------------------------------------------------------
+     SLIDE CHROME (number, brand strip)
+     ----------------------------------------------------------- */
+  .slide-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    padding: 74px 90px 88px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-number {
+    position: absolute;
+    bottom: 30px;
+    right: 44px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--text-mute);
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    z-index: 4;
+  }
+  .slide.dark .slide-number { color: rgba(255,255,255,0.45); }
+  .slide-number::before {
+    content: "";
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background: currentColor;
+    vertical-align: middle;
+    margin-right: 10px;
+    opacity: 0.6;
+  }
+
+  .brand-strip {
+    position: absolute;
+    bottom: 30px;
+    left: 90px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--gold);
+    z-index: 4;
+  }
+  .slide.dark .brand-strip { color: var(--gold-light); }
+  .brand-strip::before {
+    content: "";
+    width: 26px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .slide.dark .brand-strip::before { background: var(--gold-light); }
+
+  /* -----------------------------------------------------------
+     TYPOGRAPHY
+     ----------------------------------------------------------- */
+  .h-title {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.012em;
+    color: var(--text-dark);
+    max-width: 1160px;
+  }
+  .h-title .en {
+    display: block;
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text-slate);
+    letter-spacing: 0;
+    font-style: italic;
+  }
+  .slide.dark .h-title { color: var(--text-light); }
+  .slide.dark .h-title .en { color: var(--text-dim); }
+
+  .h-lead {
+    margin-top: 18px;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-slate);
+    line-height: 1.5;
+    max-width: 1100px;
+  }
+  .slide.dark .h-lead { color: var(--text-dim); }
+
+  /* -----------------------------------------------------------
+     INFO CARD — Crystal Diving's signature outlined card
+     ----------------------------------------------------------- */
+  .icon-svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text-dark);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .slide.dark .icon-svg { stroke: var(--text-light); }
+
+  .info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 22px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+  }
+  .slide.dark .info-card {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.16);
+  }
+  .info-card .icon-box {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-light);
+    background: var(--cream);
+    display: grid;
+    place-items: center;
+  }
+  .slide.dark .info-card .icon-box {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.24);
+  }
+  .info-card .body { flex: 1; min-width: 0; padding-top: 2px; }
+  .info-card .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .slide.dark .info-card .label { color: var(--text-light); }
+  .info-card .label::after { content: ":"; }
+  .info-card .value {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-slate);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .slide.dark .info-card .value { color: var(--text-dim); }
+  .info-card .value .en {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+
+  /* -----------------------------------------------------------
+     GOLD FOOTER BAR — the signature "key takeaway" strip
+     ----------------------------------------------------------- */
+  .gold-bar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 20px 90px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 50%, var(--gold) 100%);
+    color: var(--text-light);
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.3;
+    z-index: 5;
+    letter-spacing: 0.005em;
+  }
+  .gold-bar .en {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+  }
+  .slide.has-gold-bar .slide-content { padding-bottom: 110px; }
+  .slide.has-gold-bar .slide-number,
+  .slide.has-gold-bar .brand-strip { bottom: 84px; }
+
+  /* =============================================================
+     SLIDE 1: COVER — dark panel-split (this matches perfectly)
+     ============================================================= */
+  .slide.cover {
+    display: grid;
+    grid-template-columns: 42% 58%;
+    padding: 0;
+  }
+  .cover-panel {
+    position: relative;
+    background: linear-gradient(160deg, #0a1e3a 0%, #0d2847 55%, #143b62 100%);
+    padding: 84px 74px 74px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+  }
+  .cover-panel::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    right: -48px;
+    width: 48px;
+    background: linear-gradient(90deg, rgba(13, 40, 71, 0.88) 0%, rgba(13, 40, 71, 0) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .cover-photo {
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-photo img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-photo .photo-caption {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    padding: 8px 16px;
+    background: rgba(13, 40, 71, 0.75);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    backdrop-filter: blur(8px);
+    z-index: 2;
+  }
+  .cover-brand {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 40px;
+  }
+  .cover-brand::after {
+    content: "";
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin-left: 16px;
+  }
+  .cover-title {
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--text-light);
+    max-width: 520px;
+  }
+  .cover-title .en {
+    display: block;
+    margin-top: 14px;
+    font-size: 19px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.68);
+    letter-spacing: 0;
+    line-height: 1.3;
+  }
+  .cover-tagline {
+    margin-top: 26px;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.74);
+    line-height: 1.55;
+    max-width: 470px;
+  }
+  .cover-tagline .en {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.52);
+  }
+  .cover-cards {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 520px;
+  }
+  .cover-slide-num {
+    position: absolute;
+    bottom: 44px;
+    left: 74px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.4);
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+  .cover-slide-num::before {
+    content: "";
+    display: inline-block;
+    width: 22px; height: 1px;
+    background: currentColor;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  /* =============================================================
+     SECTION-LABEL (small eyebrow above title)
+     ============================================================= */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .section-label::after {
+    content: "";
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin-left: 14px;
+  }
+  .slide.dark .section-label { color: var(--gold-light); }
+
+  /* =============================================================
+     PROBLEM SLIDE — cream, numbered boxes, gold footer
+     ============================================================= */
+  .bullets-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 1260px;
+  }
+  .bullet-card {
+    padding: 22px 28px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    display: flex;
+    gap: 22px;
+  }
+  .bullet-card .num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    width: 40px;
+  }
+  .bullet-card .text .ru {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--text-dark);
+  }
+  .bullet-card .text .en {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+
+  /* =============================================================
+     VISION — hero photo top + lead text + bullets
+     ============================================================= */
+  .vision-hero {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .vision-photo {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-light);
+  }
+  .vision-photo img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .vision-photo::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(13,40,71,0) 50%, rgba(13,40,71,0.6) 100%);
+  }
+  .vision-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .vision-body {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-slate);
+    line-height: 1.55;
+  }
+  .vision-body .en {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+
+  /* =============================================================
+     COMPARISON TABLE — the signature "us vs them" slide
+     ============================================================= */
+  .vs-table {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 160px 1fr 1.1fr;
+    gap: 2px;
+    background: var(--border-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+    flex: 1;
+    max-width: 1260px;
+  }
+  .vs-table .row-label,
+  .vs-table .col-a,
+  .vs-table .col-b {
+    background: var(--cream);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+  }
+  .vs-table .header {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    justify-content: flex-start;
+    min-height: 70px;
+  }
+  .vs-table .header.row-label { background: transparent; border: none; }
+  .vs-table .header.col-a {
+    background: #e8e0cc;
+    color: var(--text-slate);
+  }
+  .vs-table .header.col-b {
+    background: var(--navy);
+    color: var(--text-light);
+  }
+  .vs-table .header.col-b .crystal-label {
+    font-size: 10px;
+    color: var(--gold-light);
+    display: block;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+  }
+  .vs-table .row-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    background: transparent;
+    border: none;
+    padding-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .vs-table .col-a {
+    color: var(--text-slate);
+    font-size: 13px;
+    background: #e8e0cc;
+  }
+  .vs-table .col-b {
+    background: rgba(13, 40, 71, 0.06);
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 3px solid var(--gold);
+  }
+  .vs-table .cell-ru { line-height: 1.4; }
+  .vs-table .cell-en {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* =============================================================
+     MAP SLIDE
+     ============================================================= */
+  .map-split {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 36px;
+    margin-top: 26px;
+  }
+  .map-visual {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-light);
+    background: var(--cream-deep);
+  }
+  .map-visual img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .map-pin-dot {
+    position: absolute;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold) 70%);
+    border: 3px solid #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    display: grid; place-items: center;
+    font-size: 14px; font-weight: 800;
+    color: var(--navy);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  .map-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .map-pin-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 20px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+  }
+  .map-pin-row .mnum {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--gold-2), var(--gold));
+    color: var(--navy);
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .map-pin-row .name {
+    font-size: 14px; font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+    flex: 1;
+  }
+  .map-pin-row .name .en {
+    display: block; margin-top: 2px;
+    font-size: 11px; font-weight: 400;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .map-pin-row .concept {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* =============================================================
+     PPP SLIDE
+     ============================================================= */
+  .ppp-legal {
+    margin-top: 24px;
+    padding: 20px 28px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    max-width: 1260px;
+  }
+  .ppp-legal .k {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .ppp-legal .ru {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-dark);
+  }
+  .ppp-legal .en {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+    margin-top: 22px;
+    flex: 1;
+  }
+  .col-card {
+    padding: 26px 30px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+  }
+  .col-card h3 {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--border-light);
+  }
+  .col-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .col-card li {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-dark);
+    position: relative;
+    padding-left: 22px;
+  }
+  .col-card li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 12px;
+    height: 2px;
+    background: var(--gold);
+  }
+  .col-card li .en {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+
+  /* =============================================================
+     PORTFOLIO GRID — 6 cream cards with photo tops
+     ============================================================= */
+  .portfolio-grid {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    flex: 1;
+  }
+  .port-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-light);
+    background: var(--cream-light);
+    display: flex;
+    flex-direction: column;
+  }
+  .port-card .photo {
+    position: relative;
+    height: 55%;
+    overflow: hidden;
+    background: var(--cream-deep);
+  }
+  .port-card .photo img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .port-card .photo::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(13,40,71,0) 60%, rgba(13,40,71,0.2) 100%);
+  }
+  .port-card .photo .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    background: rgba(13, 40, 71, 0.85);
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    z-index: 2;
+  }
+  .port-card .body {
+    padding: 14px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .port-card .name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.1;
+  }
+  .port-card .name .en {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .port-card .stats {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    gap: 14px;
+  }
+  .port-card .stat .k {
+    font-size: 9px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .port-card .stat .v {
+    font-size: 13px;
+    color: var(--navy);
+    font-weight: 800;
+    margin-top: 1px;
+  }
+
+  /* =============================================================
+     STRATEGIC POSITIONING MATRIX (2x2)
+     ============================================================= */
+  .matrix-wrap {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 12px;
+    margin-top: 20px;
+    padding-right: 30px;
+  }
+  .matrix-y-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .matrix-x-label {
+    grid-column: 2;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 12px;
+  }
+  .matrix-box {
+    position: relative;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+  }
+  .matrix-box::before, .matrix-box::after {
+    content: "";
+    position: absolute;
+    background: var(--border-light);
+  }
+  .matrix-box::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .matrix-box::after { top: 50%; left: 0; right: 0; height: 1px; }
+  .matrix-quadrant-label {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    padding: 6px 10px;
+  }
+  .matrix-quadrant-label.tl { top: 14px; left: 18px; }
+  .matrix-quadrant-label.tr { top: 14px; right: 18px; color: var(--gold); }
+  .matrix-quadrant-label.bl { bottom: 14px; left: 18px; }
+  .matrix-quadrant-label.br { bottom: 14px; right: 18px; }
+  .matrix-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .matrix-dot .bubble {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold) 70%);
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+  }
+  .matrix-dot .lbl {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+    background: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+  }
+
+  /* =============================================================
+     PORT DEEP-DIVE — cream with right-side photo
+     ============================================================= */
+  .item-layout {
+    display: grid;
+    grid-template-columns: 1fr 0.95fr;
+    gap: 44px;
+    flex: 1;
+    margin-top: 12px;
+  }
+  .item-layout.reverse {
+    grid-template-columns: 0.95fr 1fr;
+  }
+  .item-layout.reverse .item-text { order: 2; }
+  .item-layout.reverse .item-photo-wrap { order: 1; }
+  .item-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .item-concept-tag {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .item-concept-tag::after {
+    content: "";
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin-left: 14px;
+  }
+  .item-name {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--text-dark);
+  }
+  .item-name .en {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-slate);
+  }
+  .item-tagline-lg {
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-slate);
+    line-height: 1.5;
+    max-width: 520px;
+  }
+  .item-stats-row {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 520px;
+  }
+  .item-stat {
+    padding: 14px 16px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+  }
+  .item-stat .k {
+    font-size: 9px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+  .item-stat .v {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .item-stat .k-en {
+    display: block; font-size: 8px;
+    color: var(--text-mute);
+    margin-top: 1px;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .item-infra {
+    margin-top: 20px;
+    max-width: 520px;
+  }
+  .item-infra h4 {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .item-infra ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .item-infra li {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-slate);
+    padding-left: 14px;
+    position: relative;
+  }
+  .item-infra li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 7px;
+    width: 8px; height: 1px;
+    background: var(--gold);
+  }
+  .item-diff {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: rgba(184, 149, 68, 0.1);
+    border-left: 3px solid var(--gold);
+    max-width: 520px;
+  }
+  .item-diff .k {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+  }
+  .item-diff .ru {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--text-dark);
+  }
+  .item-photo-wrap {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-light);
+    background: var(--cream-deep);
+  }
+  .item-photo-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .item-photo-wrap::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(13,40,71,0) 60%, rgba(13,40,71,0.5) 100%);
+  }
+  .item-photo-wrap .photo-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(13, 40, 71, 0.88);
+    border: 1px solid var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    z-index: 2;
+  }
+  .item-photo-wrap .photo-num {
+    position: absolute;
+    bottom: 18px;
+    right: 22px;
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.18);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    z-index: 2;
+  }
+
+  /* =============================================================
+     DARK MONEY-REVEAL SLIDE (e.g. "$25M — Total investment")
+     ============================================================= */
+  .money-reveal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .money-reveal .headline {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-light);
+    max-width: 900px;
+    line-height: 1.25;
+    margin-bottom: 32px;
+  }
+  .money-reveal .headline .en {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .money-reveal .mega-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 160px;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-shadow: 0 6px 40px rgba(184, 149, 68, 0.35);
+    background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .money-reveal .sub {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .money-reveal .breakdown {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .money-reveal .bd-card {
+    padding: 20px 22px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-top: 2px solid var(--gold);
+    border-radius: 0 0 10px 10px;
+  }
+  .money-reveal .bd-card .k {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+  .money-reveal .bd-card .v {
+    margin-top: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-light);
+  }
+  .money-reveal .bd-card .d {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* =============================================================
+     FINANCIAL TABLE (below the money-reveal)
+     ============================================================= */
+  .fin-table-wrap {
+    margin-top: 24px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    padding: 16px 24px;
+  }
+  .fin-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .fin-table th {
+    text-align: left;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-mute);
+    padding: 10px 8px;
+    border-bottom: 1.5px solid var(--border-light);
+    font-weight: 800;
+  }
+  .fin-table td {
+    font-size: 13px;
+    padding: 11px 8px;
+    border-bottom: 1px solid rgba(13,40,71,0.05);
+    color: var(--text-dark);
+  }
+  .fin-table td.num {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .fin-table tr:last-child td { border-bottom: none; }
+  .fin-table td .sub {
+    display: block;
+    color: var(--text-mute);
+    font-size: 11px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* =============================================================
+     ROADMAP — 4 cream cards in a row with gold connecting line
+     ============================================================= */
+  .roadmap-line {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat({{ deck.roadmap.phases | length }}, 1fr);
+    gap: 18px;
+    position: relative;
+    flex: 1;
+    align-items: start;
+  }
+  .roadmap-line::before {
+    content: "";
+    position: absolute;
+    top: 34px;
+    left: 5%; right: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-2), var(--gold));
+  }
+  .phase {
+    position: relative;
+  }
+  .phase .dot {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--gold-light), var(--gold));
+    border: 3px solid var(--cream);
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--navy);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 14px rgba(184, 149, 68, 0.35);
+  }
+  .phase .card {
+    margin-top: 18px;
+    padding: 20px 20px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+  }
+  .phase .pname {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+  .phase .pname .en {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .phase .pdur {
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+  }
+  .phase .plist {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phase .plist .row {
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--text-slate);
+    padding-left: 12px;
+    position: relative;
+  }
+  .phase .plist .row::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 18px;
+    line-height: 1;
+    top: -2px;
+  }
+
+  /* =============================================================
+     TEAM / PARTNERS
+     ============================================================= */
+  .team-grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    flex: 1;
+    align-content: start;
+  }
+  .team-card {
+    padding: 24px 24px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--border-light);
+    border-top: 3px solid var(--gold);
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .team-card .ru {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+  .team-card .en {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  /* =============================================================
+     ASK SLIDE — hero photo with centered white card
+     ============================================================= */
+  .slide.ask-hero {
+    background-size: cover;
+    background-position: center;
+  }
+  .slide.ask-hero::before {
+    background: linear-gradient(180deg, rgba(13,40,71,0.45) 0%, rgba(13,40,71,0.65) 100%);
+  }
+  .ask-layout {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .ask-card {
+    background: var(--cream);
+    border: 1.5px solid rgba(255,255,255,0.8);
+    border-radius: 20px;
+    padding: 56px 72px;
+    max-width: 900px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  }
+  .ask-card .ask-headline {
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--text-dark);
+  }
+  .ask-card .ask-headline .en {
+    display: block;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-slate);
+    font-style: italic;
+  }
+  .ask-card .ask-body {
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-slate);
+  }
+  .ask-card .ask-body .en {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .ask-card .ask-signature {
+    margin-top: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .ask-card .ask-signature-en {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* =============================================================
+     CREDITS
+     ============================================================= */
+  .credits-grid {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 32px;
+    flex: 1;
+    align-content: start;
+  }
+  .credit-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    gap: 14px;
+    font-size: 11px;
+    color: var(--text-slate);
+  }
+  .credit-row .file {
+    color: var(--navy);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    min-width: 110px;
+  }
+  .credit-row .lic {
+    color: var(--text-mute);
+    margin-left: auto;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10px;
+  }
+
+  /* =============================================================
+     NAV
+     ============================================================= */
+  .deck-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(13, 40, 71, 0.92);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    font-size: 12px;
+    color: var(--text-dim);
+    align-items: center;
+  }
+  .deck-nav button {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .deck-nav button:hover { background: rgba(212, 168, 74, 0.2); border-color: var(--gold); }
+  .deck-nav .counter { padding: 6px 10px; font-variant-numeric: tabular-nums; min-width: 62px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  {% set ns = namespace(n=0) %}
+  {% set has_matrix = deck.strategic_matrix is not none %}
+  {% set has_problem = deck.problem is not none %}
+  {% set has_map = deck.map_slide is not none %}
+  {% set has_ppp = deck.ppp_model is not none %}
+  {% set has_team = deck.team is not none %}
+  {% set total_slides = 2 + (1 if has_problem else 0) + 1 + (1 if has_map else 0) + (1 if has_ppp else 0) + 1 + (1 if has_matrix else 0) + (deck.items | length) + 1 + 1 + 1 + (1 if has_team else 0) + 1 %}
+
+  {# ---------- SVG icon library (outlined, Crystal Diving style) ---------- #}
+  {% macro svg_icon(name) -%}
+  {% if name == 'star' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+  {% elif name == 'pin' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+  {% elif name == 'map' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+  {% elif name == 'money' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  {% elif name == 'clock' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  {% elif name == 'building' %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="8" y1="2" x2="8" y2="4"/><line x1="16" y1="2" x2="16" y2="4"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="10" y1="14" x2="10" y2="18"/><line x1="14" y1="14" x2="14" y2="18"/></svg>
+  {% else %}
+  <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+  {% endif %}
+  {%- endmacro %}
+
+  {# Ornamental corner SVG — subtle geometric motif #}
+  {% macro ornament() %}
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#b89544" stroke-width="1" stroke-linecap="round">
+      <path d="M 10 10 L 30 10 Q 40 10 40 20 L 40 30"/>
+      <path d="M 10 10 L 10 30 Q 10 40 20 40 L 30 40"/>
+      <circle cx="20" cy="20" r="4"/>
+      <path d="M 50 15 Q 55 10 60 15 Q 65 20 60 25 Q 55 30 50 25 Q 45 20 50 15 Z"/>
+      <path d="M 15 50 Q 10 55 15 60 Q 20 65 25 60 Q 30 55 25 50 Q 20 45 15 50 Z"/>
+      <path d="M 40 40 L 50 50 M 45 38 L 55 48"/>
+    </g>
+  </svg>
+  {% endmacro %}
+
+  {#  ============================== 1. COVER (DARK panel split) ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide cover">
+    <div class="cover-panel">
+      <div class="cover-brand">{{ deck.project_slug | replace("-", " ") | upper }} · 2026</div>
+      <h1 class="cover-title">
+        {{ deck.cover.title.ru }}
+        {% if deck.cover.title.en %}<span class="en">{{ deck.cover.title.en }}</span>{% endif %}
+      </h1>
+      <p class="cover-tagline">
+        {{ deck.cover.subtitle.ru }}
+        {% if deck.cover.subtitle.en %}<span class="en">{{ deck.cover.subtitle.en }}</span>{% endif %}
+      </p>
+      <div class="cover-cards">
+        {% for card in deck.cover.info_cards %}
+        <div class="info-card">
+          <div class="icon-box">{{ svg_icon(card.icon) }}</div>
+          <div class="body">
+            <div class="label">{{ card.label.ru }}</div>
+            <div class="value">
+              {{ card.value.ru }}
+              {% if card.value.en %}<span class="en">{{ card.value.en }}</span>{% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="cover-slide-num">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    </div>
+    <div class="cover-photo">
+      {% if deck.cover.hero_image %}<img src="{{ deck.cover.hero_image }}" alt="Issyk-Kul">{% endif %}
+      <div class="photo-caption">Иссык-Куль · Kyrgyzstan</div>
+    </div>
+  </section>
+
+  {#  ============================== 2. PROBLEM ============================== #}
+  {% if has_problem %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide has-gold-bar">
+    <div class="ornament tl">{{ ornament() }}</div>
+    <div class="ornament tr">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Исходная ситуация · The starting point</div>
+      <h2 class="h-title">
+        {{ deck.problem.title.ru }}
+        {% if deck.problem.title.en %}<span class="en">{{ deck.problem.title.en }}</span>{% endif %}
+      </h2>
+      <div class="bullets-grid">
+        {% for p in deck.problem.points %}
+        <div class="bullet-card">
+          <div class="num">{{ "%02d" | format(loop.index) }}</div>
+          <div class="text">
+            <span class="ru">{{ p.ru }}</span>
+            {% if p.en %}<span class="en">{{ p.en }}</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="brand-strip">Проблема · Problem</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    <div class="gold-bar">
+      Озеро недоиспользуется 9 месяцев в году — это $100M+ упущенной выгоды ежегодно
+      <span class="en">The lake is underutilized 9 months/year — $100M+ annual opportunity cost</span>
+    </div>
+  </section>
+  {% endif %}
+
+  {#  ============================== 3. VISION ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide has-gold-bar">
+    <div class="ornament tl">{{ ornament() }}</div>
+    <div class="ornament br">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Что мы строим · What we are building</div>
+      <h2 class="h-title">
+        {{ deck.vision.title.ru }}
+        {% if deck.vision.title.en %}<span class="en">{{ deck.vision.title.en }}</span>{% endif %}
+      </h2>
+      <div class="vision-hero">
+        <div class="vision-photo">
+          {% if deck.vision.hero_image %}<img src="{{ deck.vision.hero_image }}" alt="Issyk-Kul">{% endif %}
+        </div>
+        <div class="vision-copy">
+          <div class="vision-body">
+            {{ deck.vision.body.ru }}
+            {% if deck.vision.body.en %}<span class="en">{{ deck.vision.body.en }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip">Видение · Vision</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    <div class="gold-bar">
+      Превратим Иссык-Куль в круглогодичный туристический кластер мирового уровня
+      <span class="en">Turn Issyk-Kul into a year-round, world-class tourism cluster</span>
+    </div>
+  </section>
+
+  {#  ============================== 4. MAP ============================== #}
+  {% if has_map %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide">
+    <div class="ornament tl">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">География проекта · Project geography</div>
+      <h2 class="h-title">
+        {{ deck.map_slide.title.ru }}
+        {% if deck.map_slide.title.en %}<span class="en">{{ deck.map_slide.title.en }}</span>{% endif %}
+      </h2>
+      <div class="map-split">
+        <div class="map-visual">
+          {% if deck.map_slide.hero_image %}<img src="{{ deck.map_slide.hero_image }}" alt="Issyk-Kul map">{% endif %}
+          {% set pin_pct = [(18, 78),(32, 22),(56, 14),(76, 28),(70, 68),(42, 82)] %}
+          {% for item in deck.items %}
+          {% set pos = pin_pct[loop.index0 % 6] %}
+          <div class="map-pin-dot" style="left: {{ pos[0] }}%; top: {{ pos[1] }}%;">{{ loop.index }}</div>
+          {% endfor %}
+        </div>
+        <div class="map-list">
+          {% for item in deck.items %}
+          <div class="map-pin-row">
+            <div class="mnum">{{ loop.index }}</div>
+            <div class="name">
+              {{ item.name.ru }}
+              {% if item.name.en %}<span class="en">{{ item.name.en }}</span>{% endif %}
+            </div>
+            <div class="concept">{{ item.concept_tag.en or item.concept_tag.ru }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip">География · Geography</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+  {% endif %}
+
+  {#  ============================== 5. PPP ============================== #}
+  {% if has_ppp %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide">
+    <div class="ornament tr">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Модель партнёрства · Partnership model</div>
+      <h2 class="h-title">
+        {{ deck.ppp_model.title.ru }}
+        {% if deck.ppp_model.title.en %}<span class="en">{{ deck.ppp_model.title.en }}</span>{% endif %}
+      </h2>
+      <div class="ppp-legal">
+        <div class="k">Правовая основа · Legal basis</div>
+        <div class="ru">{{ deck.ppp_model.legal_basis.ru }}</div>
+        {% if deck.ppp_model.legal_basis.en %}<div class="en">{{ deck.ppp_model.legal_basis.en }}</div>{% endif %}
+      </div>
+      <div class="two-col">
+        <div class="col-card">
+          <h3>Государство · State obligations</h3>
+          <ul>
+            {% for o in deck.ppp_model.state_obligations %}
+            <li>{{ o.ru }}{% if o.en %}<span class="en">{{ o.en }}</span>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-card">
+          <h3>Инвестор · Investor obligations</h3>
+          <ul>
+            {% for o in deck.ppp_model.investor_obligations %}
+            <li>{{ o.ru }}{% if o.en %}<span class="en">{{ o.en }}</span>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip">ГЧП · Public-Private Partnership</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+  {% endif %}
+
+  {#  ============================== 6. PORTFOLIO GRID ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide has-gold-bar">
+    <div class="slide-content">
+      <div class="section-label">{{ deck.items | length }} объектов · {{ deck.items | length }} sites</div>
+      <h2 class="h-title">
+        Шесть брендов, одна экосистема
+        <span class="en">Six brands, one ecosystem</span>
+      </h2>
+      <div class="portfolio-grid">
+        {% for item in deck.items %}
+        <div class="port-card">
+          <div class="photo">
+            {% if item.hero_image %}<img src="{{ item.hero_image }}" alt="{{ item.name.en }}">{% endif %}
+            <div class="tag">{{ item.concept_tag.en or item.concept_tag.ru }}</div>
+          </div>
+          <div class="body">
+            <div class="name">
+              {{ item.name.ru }}
+              {% if item.name.en %}<span class="en">{{ item.name.en }}</span>{% endif %}
+            </div>
+            <div class="stats">
+              <div class="stat"><div class="k">Инвест.</div><div class="v">{{ item.investment_usd }}</div></div>
+              <div class="stat"><div class="k">Окуп.</div><div class="v">{{ item.payback_years or "—" }}</div></div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="brand-strip">Портфель проектов · Project portfolio</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    <div class="gold-bar">
+      Каждый порт занимает уникальную нишу — ноль каннибализации между объектами
+      <span class="en">Each port owns a distinct niche — zero cannibalization between sites</span>
+    </div>
+  </section>
+
+  {#  ============================== 7. STRATEGIC MATRIX ============================== #}
+  {% if has_matrix %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide has-gold-bar">
+    <div class="ornament tl">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Матрица позиционирования · Positioning matrix</div>
+      <h2 class="h-title">
+        {{ deck.strategic_matrix.title.ru }}
+        {% if deck.strategic_matrix.title.en %}<span class="en">{{ deck.strategic_matrix.title.en }}</span>{% endif %}
+      </h2>
+      <div class="matrix-wrap">
+        <div class="matrix-y-label">{{ deck.strategic_matrix.y_label.ru }} · {{ deck.strategic_matrix.y_label.en }}</div>
+        <div class="matrix-box">
+          {% if deck.strategic_matrix.quadrant_tl %}<div class="matrix-quadrant-label tl">{{ deck.strategic_matrix.quadrant_tl.ru }}</div>{% endif %}
+          {% if deck.strategic_matrix.quadrant_tr %}<div class="matrix-quadrant-label tr">★ {{ deck.strategic_matrix.quadrant_tr.ru }}</div>{% endif %}
+          {% if deck.strategic_matrix.quadrant_bl %}<div class="matrix-quadrant-label bl">{{ deck.strategic_matrix.quadrant_bl.ru }}</div>{% endif %}
+          {% if deck.strategic_matrix.quadrant_br %}<div class="matrix-quadrant-label br">{{ deck.strategic_matrix.quadrant_br.ru }}</div>{% endif %}
+          {% for dot in deck.strategic_matrix.dots %}
+          {% set itm = deck.items | selectattr("slug", "equalto", dot.item_slug) | first %}
+          <div class="matrix-dot" style="left: {{ dot.x }}%; top: {{ 100 - dot.y }}%;">
+            <div class="bubble"></div>
+            <div class="lbl">{{ itm.name.ru if itm else dot.item_slug }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <div></div>
+        <div class="matrix-x-label">{{ deck.strategic_matrix.x_label.ru }} · {{ deck.strategic_matrix.x_label.en }}</div>
+      </div>
+    </div>
+    <div class="brand-strip">Стратегия · Strategy</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    {% if deck.strategic_matrix.takeaway %}
+    <div class="gold-bar">
+      {{ deck.strategic_matrix.takeaway.ru }}
+      {% if deck.strategic_matrix.takeaway.en %}<span class="en">{{ deck.strategic_matrix.takeaway.en }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {#  ============================== PER-ITEM DEEP DIVES ============================== #}
+  {% for item in deck.items %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide has-gold-bar">
+    <div class="slide-content">
+      <div class="section-label">Порт {{ loop.index }} / {{ deck.items | length }} · {{ item.concept_tag.en }}</div>
+      <div class="item-layout{% if loop.index is even %} reverse{% endif %}">
+        <div class="item-text">
+          <div class="item-concept-tag">{{ item.concept_tag.ru }}</div>
+          <h2 class="item-name">
+            {{ item.name.ru }}
+            {% if item.name.en %}<span class="en">{{ item.name.en }}</span>{% endif %}
+          </h2>
+          <p class="item-tagline-lg">{{ item.tagline.ru }}</p>
+          <div class="item-stats-row">
+            <div class="item-stat">
+              <div class="k">Инвестиции <span class="k-en">Investment</span></div>
+              <div class="v">{{ item.investment_usd }}</div>
+            </div>
+            <div class="item-stat">
+              <div class="k">Выручка/год <span class="k-en">Revenue</span></div>
+              <div class="v">{{ item.annual_revenue_usd or "—" }}</div>
+            </div>
+            <div class="item-stat">
+              <div class="k">Окупаемость <span class="k-en">Payback</span></div>
+              <div class="v">{{ item.payback_years or "—" }}</div>
+            </div>
+          </div>
+          {% if item.key_infrastructure %}
+          <div class="item-infra">
+            <h4>Ключевая инфраструктура · Key infrastructure</h4>
+            <ul>
+              {% for inf in item.key_infrastructure[:4] %}
+              <li>{{ inf.ru }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          <div class="item-diff">
+            <div class="k">Конкурентное преимущество · Competitive edge</div>
+            <div class="ru">{{ item.differentiator.ru }}</div>
+          </div>
+        </div>
+        <div class="item-photo-wrap">
+          {% if item.hero_image %}<img src="{{ item.hero_image }}" alt="{{ item.name.en }}">{% endif %}
+          <div class="photo-badge">{{ item.name.en }}</div>
+          <div class="photo-num">{{ "%02d" | format(loop.index) }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip">{{ item.name.ru }} · Port {{ loop.index }}</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+    <div class="gold-bar">
+      {{ item.differentiator.ru[:140] }}{% if item.differentiator.ru|length > 140 %}…{% endif %}
+    </div>
+  </section>
+  {% endfor %}
+
+  {#  ============================== FINANCIAL — DARK MONEY REVEAL ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide dark">
+    <div class="slide-content">
+      <div class="section-label">Экономический двигатель · Economic engine</div>
+      <h2 class="h-title" style="max-width: 1060px;">
+        {{ deck.financial_summary.title.ru }}
+        {% if deck.financial_summary.title.en %}<span class="en">{{ deck.financial_summary.title.en }}</span>{% endif %}
+      </h2>
+      <div class="money-reveal">
+        <div class="headline">
+          Прямые инвестиции в Иссык-Кульскую область
+          <span class="en">Direct investment into Issyk-Kul Oblast</span>
+        </div>
+        <div class="mega-number">{{ deck.financial_summary.total_investment }}</div>
+        <div class="sub">Совокупно по 6 портам · Across 6 ports</div>
+        <div class="breakdown">
+          <div class="bd-card">
+            <div class="k">Средний срок окупаемости</div>
+            <div class="v">{{ deck.financial_summary.blended_payback }}</div>
+            <div class="d">Blended payback horizon</div>
+          </div>
+          <div class="bd-card">
+            <div class="k">Структура</div>
+            <div class="v">6 траншей ГЧП</div>
+            <div class="d">6 PPP tranches, phased by port</div>
+          </div>
+          <div class="bd-card">
+            <div class="k">Продление сезона</div>
+            <div class="v">3 → 10–12 мес.</div>
+            <div class="d">Season extended 3 → 10–12 months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip">Финансы · Financials</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+
+  {#  ============================== FIN TABLE (cream) ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide">
+    <div class="slide-content">
+      <div class="section-label">Разбивка по портам · Breakdown by port</div>
+      <h2 class="h-title">
+        Портфельная структура инвестиций
+        <span class="en">Portfolio investment structure</span>
+      </h2>
+      <div class="fin-table-wrap">
+        <table class="fin-table">
+          <thead>
+            <tr>
+              <th>Порт · Port</th>
+              <th style="text-align:right;">Инвестиции · Invest.</th>
+              <th style="text-align:right;">Выручка/год · Revenue</th>
+              <th style="text-align:right;">Окуп. · Payback</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in deck.financial_summary.items_breakdown %}
+            {% set itm = deck.items | selectattr("slug", "equalto", row.item_slug) | first %}
+            <tr>
+              <td>
+                {{ itm.name.ru if itm else row.item_slug }}
+                <span class="sub">{{ itm.name.en if itm else "" }}</span>
+              </td>
+              <td class="num">{{ row.investment }}</td>
+              <td class="num">{{ row.revenue or "—" }}</td>
+              <td class="num">{{ row.payback or "—" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 20px; font-size: 12px; color: var(--text-mute); font-style: italic; max-width: 1100px;">
+        {{ deck.financial_summary.currency_note.ru }}
+      </div>
+    </div>
+    <div class="brand-strip">Финансы · Financials detail</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+
+  {#  ============================== ROADMAP ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide">
+    <div class="ornament br">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Этапы реализации · Implementation phases</div>
+      <h2 class="h-title">
+        {{ deck.roadmap.title.ru }}
+        {% if deck.roadmap.title.en %}<span class="en">{{ deck.roadmap.title.en }}</span>{% endif %}
+      </h2>
+      <div class="roadmap-line">
+        {% for p in deck.roadmap.phases %}
+        <div class="phase">
+          <div class="dot">{{ p.phase_number }}</div>
+          <div class="card">
+            <div class="pname">
+              {{ p.name.ru }}
+              {% if p.name.en %}<span class="en">{{ p.name.en }}</span>{% endif %}
+            </div>
+            <div class="pdur">{{ p.duration.ru }}</div>
+            <div class="plist">
+              {% for d in p.deliverables %}
+              <div class="row">{{ d.ru }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="brand-strip">Дорожная карта · Roadmap</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+
+  {#  ============================== TEAM ============================== #}
+  {% if has_team %}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide">
+    <div class="ornament tl">{{ ornament() }}</div>
+    <div class="slide-content">
+      <div class="section-label">Государственная поддержка · State support</div>
+      <h2 class="h-title">
+        {{ deck.team.title.ru }}
+        {% if deck.team.title.en %}<span class="en">{{ deck.team.title.en }}</span>{% endif %}
+      </h2>
+      <div class="team-grid">
+        {% for e in deck.team.entities %}
+        <div class="team-card">
+          <div class="ru">{{ e.ru }}</div>
+          {% if e.en %}<div class="en">{{ e.en }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% if deck.team.note %}
+      <div style="margin-top: 24px; font-size: 12px; color: var(--text-mute); font-style: italic;">
+        {{ deck.team.note.ru }}
+      </div>
+      {% endif %}
+    </div>
+    <div class="brand-strip">Партнёры · Partners</div>
+    <div class="slide-number">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+  {% endif %}
+
+  {#  ============================== ASK — hero photo with modal card ============================== #}
+  {% set ns.n = ns.n + 1 %}
+  <section class="slide ask-hero"{% if deck.cover.hero_image %} style="background-image: url('{{ deck.cover.hero_image }}');"{% endif %}>
+    <div class="ask-layout">
+      <div class="ask-card">
+        <div class="ask-headline">
+          {{ deck.ask.headline.ru }}
+          {% if deck.ask.headline.en %}<span class="en">{{ deck.ask.headline.en }}</span>{% endif %}
+        </div>
+        <div class="ask-body">
+          {% if deck.ask.supporting_points %}
+          {{ deck.ask.supporting_points[0].ru }}
+          {% if deck.ask.supporting_points[0].en %}<span class="en">{{ deck.ask.supporting_points[0].en }}</span>{% endif %}
+          {% endif %}
+        </div>
+        <div class="ask-signature">
+          Чоң рахмат!
+          <span class="ask-signature-en">Thank you · In partnership for Issyk-Kul</span>
+        </div>
+      </div>
+    </div>
+    <div class="brand-strip" style="color: var(--gold-light);">Запрос · The ask</div>
+    <div class="slide-number" style="color: rgba(255,255,255,0.6);">{{ "%02d" | format(ns.n) }} / {{ "%02d" | format(total_slides) }}</div>
+  </section>
+
+  {#  ============================== CREDITS ============================== #}
+  {% if deck.image_credits %}
+  <section class="slide">
+    <div class="slide-content">
+      <div class="section-label">Credits · Attribution</div>
+      <h2 class="h-title" style="font-size: 30px;">
+        Фотоматериалы — Wikimedia Commons
+        <span class="en">Photography — Wikimedia Commons</span>
+      </h2>
+      <div class="credits-grid">
+        {% for c in deck.image_credits %}
+        <div class="credit-row">
+          <div class="file">{{ c.file }}</div>
+          <div>{{ c.author }}</div>
+          <div class="lic">{{ c.license }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="brand-strip">Источники · Sources</div>
+  </section>
+  {% endif %}
+
+</div>
+
+<div class="deck-nav">
+  <button onclick="navSlide(-1)">← Prev</button>
+  <div class="counter" id="counter">1 / {{ total_slides }}</div>
+  <button onclick="navSlide(1)">Next →</button>
+  <button onclick="window.print()" title="Print to PDF">PDF</button>
+</div>
+
+<script>
+  function fit() {
+    const scale = Math.min(window.innerWidth / 1440, (window.innerHeight - 80) / 810);
+    document.documentElement.style.setProperty('--scale', scale);
+    const deck = document.getElementById('deck');
+    deck.style.width = (1440 * scale) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let idx = 0;
+  function showSlide(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('counter').textContent = (idx + 1) + ' / ' + slides.length;
+  }
+  function navSlide(delta) { showSlide(idx + delta); }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); navSlide(1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); navSlide(-1); }
+    if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+    if (e.key === 'End') { e.preventDefault(); showSlide(slides.length - 1); }
+  });
+</script>
+</body>
+</html>
