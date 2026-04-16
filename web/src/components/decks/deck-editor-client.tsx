@@ -32,6 +32,36 @@ export function DeckEditorClient({
   const [deck, setDeck] = React.useState<DeckData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [showExisting, setShowExisting] = React.useState(false);
+  const [previewUrl, setPreviewUrl] = React.useState("/demo-deck/presentation.html");
+  const [rendering, setRendering] = React.useState(false);
+
+  async function renderDeckPreview(deckData: DeckData) {
+    setRendering(true);
+    try {
+      const res = await fetch("/api/deck/render", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deck: deckData }),
+      });
+      if (!res.ok) return;
+      const html = await res.text();
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      setPreviewUrl(url);
+    } catch {
+      // Fall back to demo deck
+    } finally {
+      setRendering(false);
+    }
+  }
+
+  function handleDownloadDeck() {
+    if (!previewUrl) return;
+    const a = document.createElement("a");
+    a.href = previewUrl;
+    a.download = `presentation-${Date.now()}.html`;
+    a.click();
+  }
 
   // Try loading existing deck data from mock/API
   React.useEffect(() => {
@@ -60,8 +90,11 @@ export function DeckEditorClient({
         setError(json.error?.message ?? "Generation failed");
         return;
       }
-      setDeck(json.deck as DeckData);
+      const generatedDeck = json.deck as DeckData;
+      setDeck(generatedDeck);
       setShowExisting(false);
+      // Render the deck as real HTML slides
+      renderDeckPreview(generatedDeck);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Network error");
     } finally {
@@ -234,7 +267,7 @@ export function DeckEditorClient({
               </div>
               <div className="bg-slate-900 aspect-video relative">
                 <iframe
-                  src="/demo-deck/presentation.html"
+                  src={previewUrl}
                   className="w-full h-full border-0"
                   title="Deck preview"
                 />
@@ -243,7 +276,7 @@ export function DeckEditorClient({
                 <CardDescription>
                   {locale === "en" ? "Preview shows the Karakol reference deck" : "Превью показывает референсную презентацию Каракол"}
                 </CardDescription>
-                <a href="/demo-deck/presentation.html" target="_blank" rel="noreferrer">
+                <a href={previewUrl} target="_blank" rel="noreferrer">
                   <Button variant="ghost" size="sm">
                     <ArrowRight className="w-3.5 h-3.5" />
                     {locale === "en" ? "Full screen" : "Полный экран"}

@@ -181,7 +181,13 @@ export function SmetaEditorClient({ projectId, locale, dict }: { projectId: stri
             </div>
             <div className="flex items-center gap-2">
               <Button variant="ghost" onClick={() => { setStep("describe"); setSmeta(null); }}>{t("Новый расчёт", "New estimate")}</Button>
-              <Button variant="secondary" disabled><Download className="w-4 h-4" />{dict.export_xlsx}</Button>
+              <Button variant="secondary" onClick={async () => {
+                const res = await fetch("/api/smeta/export", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ smeta }) });
+                if (!res.ok) return;
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a"); a.href = url; a.download = `smeta-${Date.now()}.csv`; a.click(); URL.revokeObjectURL(url);
+              }}><Download className="w-4 h-4" />{dict.export_xlsx}</Button>
             </div>
           </div>
           {/* Cost per m² headline (if available) */}
