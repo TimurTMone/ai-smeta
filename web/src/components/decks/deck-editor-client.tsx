@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import type { Locale } from "@/i18n/config";
-import type { DeckData, Project } from "@/types/api";
-import { getDeck, renderDeck, ingestDeckFiles, exportDeckPdf } from "@/lib/api";
+import type { DeckData } from "@/types/api";
+import { getDeck } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Download, RefreshCw, Eye } from "lucide-react";
+import { Textarea } from "@/components/ui/input";
+import { Loader2, Sparkles, Eye, AlertCircle, FileText, ArrowRight } from "lucide-react";
 
 type Dict = {
   upload: string;
@@ -26,215 +27,232 @@ export function DeckEditorClient({
   locale: Locale;
   dict: Dict;
 }) {
-  const [loading, setLoading] = React.useState(true);
-  const [project, setProject] = React.useState<Project | null>(null);
+  const [description, setDescription] = React.useState("");
+  const [generating, setGenerating] = React.useState(false);
   const [deck, setDeck] = React.useState<DeckData | null>(null);
-  const [previewUrl, setPreviewUrl] = React.useState<string>("");
-  const [rendering, setRendering] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  void locale;
+  const [error, setError] = React.useState<string | null>(null);
+  const [showExisting, setShowExisting] = React.useState(false);
 
+  // Try loading existing deck data from mock/API
   React.useEffect(() => {
-    let alive = true;
     getDeck(projectId)
-      .then(({ project: p, data }) => {
-        if (!alive) return;
-        setProject(p);
-        setDeck(data);
-        setLoading(false);
+      .then(({ data }) => {
+        if (data && data.cover) {
+          setDeck(data);
+          setShowExisting(true);
+        }
       })
-      .catch(() => setLoading(false));
-    return () => {
-      alive = false;
-    };
+      .catch(() => {});
   }, [projectId]);
 
-  async function handleRender() {
-    setRendering(true);
+  async function handleGenerate() {
+    if (!description.trim() || description.trim().length < 10) return;
+    setGenerating(true);
+    setError(null);
     try {
-      const { preview_url } = await renderDeck(projectId);
-      setPreviewUrl(preview_url + "?t=" + Date.now()); // cache-bust
+      const res = await fetch("/api/ai/generate-deck", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: description, projectId }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setError(json.error?.message ?? "Generation failed");
+        return;
+      }
+      setDeck(json.deck as DeckData);
+      setShowExisting(false);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Network error");
     } finally {
-      setRendering(false);
+      setGenerating(false);
     }
-  }
-
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
-    if (files.length === 0) return;
-    setRendering(true);
-    try {
-      await ingestDeckFiles(projectId, files);
-      const { data } = await getDeck(projectId);
-      setDeck(data);
-      const { preview_url } = await renderDeck(projectId);
-      setPreviewUrl(preview_url + "?t=" + Date.now());
-    } finally {
-      setRendering(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-  }
-
-  async function handleDownload() {
-    const { download_url } = await exportDeckPdf(projectId);
-    window.open(download_url, "_blank");
-  }
-
-  if (loading || !deck || !project) {
-    return (
-      <div className="text-sm text-[var(--muted-foreground)]">{dict.loading}</div>
-    );
   }
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight">
-            {project.name}
-          </h1>
-          <div className="mt-1 text-sm text-[var(--muted-foreground)]">
-            <Badge variant="outline">{project.status}</Badge>
-            <span className="ml-2 text-xs">{deck.items.length} items · {deck.project_slug}</span>
+      {/* Input section */}
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex items-start gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 text-white grid place-items-center shrink-0">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div>
+              <CardTitle>
+                {locale === "en" ? "Describe your investment project" : locale === "ky" ? "Инвестициялык долбооруңузду сүрөттөңүз" : "Опишите инвестиционный проект"}
+              </CardTitle>
+              <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                {locale === "en"
+                  ? "Describe the project — location, type, budget, timeline, target investors. Claude will structure it into a bilingual presentation."
+                  : locale === "ky"
+                    ? "Долбоорду сүрөттөңүз — жери, түрү, бюджети, мөөнөтү. Claude аны эки тилдүү презентацияга түзөт."
+                    : "Опишите проект — локация, тип, бюджет, сроки, целевые инвесторы. Claude структурирует данные в двуязычную презентацию."}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            accept=".docx,.pdf,.txt"
-            className="hidden"
-            onChange={handleUpload}
+          <Textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={
+              locale === "en"
+                ? "e.g. Tourist resort on Lake Issyk-Kul, 6 ports along the shore. Total investment $25-35M. PPP model with the government. Each port has unique positioning: yacht club, kitesurfing center, eco-lodge, logistics hub..."
+                : locale === "ky"
+                  ? "мис. Ысык-Көл боюндагы туристик курорт, жээк боюнча 6 порт. Жалпы инвестиция $25-35M. Өкмөт менен МЖП модели..."
+                  : "напр. Туристический курорт на озере Иссык-Куль, 6 портов вдоль побережья. Общий объём инвестиций $25-35 млн. Модель ГЧП с правительством. Каждый порт с уникальным позиционированием: яхт-клуб, кайтсёрфинг-центр, эко-лодж, логистический хаб..."
+            }
+            className="min-h-[140px]"
           />
-          <Button
-            variant="secondary"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={rendering}
-          >
-            <Upload className="w-4 h-4" />
-            {dict.upload}
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={handleRender}
-            disabled={rendering}
-          >
-            <RefreshCw className={rendering ? "w-4 h-4 animate-spin" : "w-4 h-4"} />
-            {dict.preview}
-          </Button>
-          <Button onClick={handleDownload}>
-            <Download className="w-4 h-4" />
-            {dict.download_pdf}
-          </Button>
-        </div>
-      </div>
+          <div className="mt-4 flex items-center justify-between">
+            <div className="text-xs text-[var(--muted-foreground)]">
+              {description.length > 0 && `${description.length} ${locale === "en" ? "chars" : "симв."}`}
+            </div>
+            <Button onClick={handleGenerate} disabled={generating || description.trim().length < 10} className="shadow-lg shadow-violet-500/20 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700">
+              {generating ? (
+                <><Loader2 className="w-4 h-4 animate-spin" />{locale === "en" ? "Generating deck…" : "Генерация презентации…"}</>
+              ) : (
+                <><Sparkles className="w-4 h-4" />{locale === "en" ? "Generate Presentation" : locale === "ky" ? "Презентация түзүү" : "Сгенерировать презентацию"}</>
+              )}
+            </Button>
+          </div>
+          {error && (
+            <div className="mt-4 flex items-center gap-2 text-sm text-[var(--danger)]">
+              <AlertCircle className="w-4 h-4 shrink-0" />{error}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-      {/* Two-column layout: form left, preview right */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Left: structured form (minimal v1 — read-only summary) */}
-        <div className="space-y-4 max-h-[75vh] overflow-y-auto pr-2">
-          <Card>
-            <CardContent className="pt-6">
-              <CardTitle className="mb-3">{dict.sections.cover}</CardTitle>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <div className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-semibold">
-                    RU
-                  </div>
-                  <div className="font-semibold">{deck.cover.title.ru}</div>
-                </div>
-                <div>
-                  <div className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-semibold">
-                    EN
-                  </div>
-                  <div className="text-[var(--muted-foreground)]">
-                    {deck.cover.title.en}
-                  </div>
-                </div>
-                <div className="pt-2 border-t border-[var(--border)]">
-                  <CardDescription>{deck.cover.subtitle.ru}</CardDescription>
-                </div>
+      {generating && !deck && (
+        <Card>
+          <CardContent className="pt-12 pb-12 text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-violet-500 mx-auto mb-4" />
+            <p className="text-sm text-[var(--muted-foreground)]">
+              {locale === "en" ? "Claude is structuring your presentation… 20-40 seconds." : "Claude структурирует презентацию… 20–40 секунд."}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {deck && (
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Left: structured content summary */}
+          <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
+            {showExisting && (
+              <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)] mb-2">
+                <Badge variant="outline">{locale === "en" ? "Loaded from saved data" : "Загружено из сохранённых данных"}</Badge>
               </div>
-            </CardContent>
-          </Card>
+            )}
 
-          {deck.problem && (
+            {/* Cover */}
             <Card>
               <CardContent className="pt-6">
-                <CardTitle className="mb-3">{dict.sections.problem}</CardTitle>
-                <div className="text-sm font-semibold">{deck.problem.title.ru}</div>
-                <ul className="mt-2 space-y-1 text-sm text-[var(--muted-foreground)]">
-                  {deck.problem.points.map((p, i) => (
-                    <li key={i}>• {p.ru}</li>
-                  ))}
-                </ul>
+                <div className="flex items-center gap-2 mb-3">
+                  <Badge variant="accent">{dict.sections.cover}</Badge>
+                </div>
+                <h3 className="text-lg font-bold">{deck.cover.title.ru}</h3>
+                <p className="text-sm text-[var(--muted-foreground)] mt-1">{deck.cover.title.en}</p>
+                <div className="mt-3 text-sm text-[var(--muted-foreground)] italic">
+                  {deck.cover.subtitle.ru}
+                </div>
               </CardContent>
             </Card>
-          )}
 
-          <Card>
-            <CardContent className="pt-6">
-              <CardTitle className="mb-3">
-                {dict.sections.items} ({deck.items.length})
-              </CardTitle>
-              <div className="space-y-2">
-                {deck.items.map((item) => (
-                  <div
-                    key={item.slug}
-                    className="p-3 rounded-[var(--radius-sm)] bg-[var(--muted)] border border-[var(--border)]"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="font-semibold text-sm">{item.name.ru}</div>
-                      <Badge variant="accent">{item.investment_usd}</Badge>
+            {/* Problem */}
+            {deck.problem && (
+              <Card>
+                <CardContent className="pt-6">
+                  <Badge variant="accent" className="mb-3">{dict.sections.problem}</Badge>
+                  <h3 className="font-bold">{deck.problem.title.ru}</h3>
+                  <ul className="mt-2 space-y-1.5 text-sm text-[var(--muted-foreground)]">
+                    {deck.problem.points.map((p, i) => <li key={i}>• {p.ru}</li>)}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Vision */}
+            <Card>
+              <CardContent className="pt-6">
+                <Badge variant="accent" className="mb-3">{dict.sections.vision}</Badge>
+                <h3 className="font-bold">{deck.vision.title.ru}</h3>
+                <p className="mt-2 text-sm text-[var(--muted-foreground)]">{deck.vision.body.ru}</p>
+              </CardContent>
+            </Card>
+
+            {/* Items */}
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Badge variant="accent">{dict.sections.items}</Badge>
+                  <span className="text-xs text-[var(--muted-foreground)]">{deck.items.length} items</span>
+                </div>
+                <div className="space-y-3">
+                  {deck.items.map((item) => (
+                    <div key={item.slug} className="p-3 rounded-xl bg-[var(--muted)] border border-[var(--border)]">
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <div className="font-semibold text-sm">{item.name.ru}</div>
+                          <div className="text-xs text-[var(--muted-foreground)]">{item.concept_tag.en}</div>
+                        </div>
+                        <Badge variant="accent">{item.investment_usd}</Badge>
+                      </div>
+                      <p className="mt-2 text-xs text-[var(--muted-foreground)] italic">{item.tagline.ru}</p>
                     </div>
-                    <div className="text-xs text-[var(--muted-foreground)] mt-1">
-                      {item.concept_tag.en}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <CardTitle className="mb-3">{dict.sections.financial}</CardTitle>
-              <div className="text-2xl font-extrabold text-[var(--accent)]">
-                {deck.financial_summary.total_investment}
-              </div>
-              <div className="text-sm text-[var(--muted-foreground)] mt-1">
-                {deck.financial_summary.blended_payback}
-              </div>
-            </CardContent>
-          </Card>
+            {/* Financial */}
+            <Card>
+              <CardContent className="pt-6">
+                <Badge variant="accent" className="mb-3">{dict.sections.financial}</Badge>
+                <div className="text-3xl font-extrabold text-[var(--accent)]">{deck.financial_summary.total_investment}</div>
+                <div className="text-sm text-[var(--muted-foreground)] mt-1">{deck.financial_summary.blended_payback}</div>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <CardTitle className="mb-3">{dict.sections.ask}</CardTitle>
-              <div className="text-sm font-semibold">{deck.ask.headline.ru}</div>
-            </CardContent>
-          </Card>
+            {/* Ask */}
+            <Card>
+              <CardContent className="pt-6">
+                <Badge variant="accent" className="mb-3">{dict.sections.ask}</Badge>
+                <h3 className="font-bold">{deck.ask.headline.ru}</h3>
+                <p className="text-sm text-[var(--muted-foreground)] mt-1">{deck.ask.headline.en}</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right: live preview iframe */}
+          <div className="lg:sticky lg:top-24 h-fit">
+            <Card className="overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-[var(--muted)] text-xs">
+                <Eye className="w-3.5 h-3.5" />
+                <span className="font-semibold">{dict.preview}</span>
+                <span className="ml-auto text-[var(--muted-foreground)]">Karakol demo · 17 slides</span>
+              </div>
+              <div className="bg-slate-900 aspect-video relative">
+                <iframe
+                  src="/demo-deck/presentation.html"
+                  className="w-full h-full border-0"
+                  title="Deck preview"
+                />
+              </div>
+              <div className="px-4 py-3 border-t border-[var(--border)] bg-[var(--muted)]/50 flex items-center justify-between">
+                <CardDescription>
+                  {locale === "en" ? "Preview shows the Karakol reference deck" : "Превью показывает референсную презентацию Каракол"}
+                </CardDescription>
+                <a href="/demo-deck/presentation.html" target="_blank" rel="noreferrer">
+                  <Button variant="ghost" size="sm">
+                    <ArrowRight className="w-3.5 h-3.5" />
+                    {locale === "en" ? "Full screen" : "Полный экран"}
+                  </Button>
+                </a>
+              </div>
+            </Card>
+          </div>
         </div>
-
-        {/* Right: preview iframe */}
-        <div className="lg:sticky lg:top-24 h-fit">
-          <Card className="overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-[var(--muted)] text-xs">
-              <Eye className="w-3.5 h-3.5" />
-              <span className="font-semibold">{dict.preview}</span>
-            </div>
-            <div className="bg-slate-900 h-[70vh] flex items-center justify-center">
-              <iframe
-                src={previewUrl || "/demo-deck/presentation.html"}
-                className="w-full h-full bg-slate-900 border-0"
-                title="Deck preview"
-              />
-            </div>
-          </Card>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
