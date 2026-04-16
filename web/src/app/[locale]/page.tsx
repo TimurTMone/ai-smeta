@@ -41,6 +41,7 @@ export default async function HomePage({
                 ◆
               </span>
               <span>Ai-Smeta</span>
+              <span className="ml-1 px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider">Beta</span>
             </Link>
 
             {/* Nav + language */}

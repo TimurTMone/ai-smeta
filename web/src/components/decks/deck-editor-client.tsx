@@ -135,6 +135,7 @@ export function DeckEditorClient({
       )}
 
       {deck && (
+        <>
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Left: structured content summary */}
           <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
@@ -252,6 +253,39 @@ export function DeckEditorClient({
             </Card>
           </div>
         </div>
+
+        {/* Feedback card */}
+        <Card className="border-violet-200 bg-gradient-to-br from-violet-50 to-purple-50 lg:col-span-2">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 text-white grid place-items-center shrink-0 shadow-lg shadow-violet-500/25 text-xl">
+                💬
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-violet-900">
+                  {locale === "en" ? "How does this look?" : locale === "ky" ? "Кандай көрүнөт?" : "Как вам результат?"}
+                </h3>
+                <p className="mt-1 text-sm text-violet-800">
+                  {locale === "en"
+                    ? "We're in closed beta. Your feedback shapes the product. Message us on Telegram — what worked, what didn't, what's missing."
+                    : locale === "ky"
+                      ? "Жабык бетадабыз. Пикириңиз продуктту жакшыртат. Telegramга жазыңыз."
+                      : "Мы в закрытой бете. Ваш отзыв формирует продукт. Напишите в Telegram — что получилось, что нет, чего не хватает."}
+                </p>
+                <a
+                  href="https://t.me/+996999955000"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#229ED9] text-white text-sm font-semibold hover:bg-[#1a8abf] transition-colors shadow-lg shadow-[#229ED9]/25"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                  {locale === "en" ? "Message on Telegram" : locale === "ky" ? "Telegramга жазуу" : "Написать в Telegram"}
+                </a>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        </>
       )}
     </div>
   );

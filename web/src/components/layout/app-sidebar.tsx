@@ -36,6 +36,7 @@ export function AppSidebar({
             ◆
           </span>
           Ai-Smeta
+          <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 text-[9px] font-bold uppercase tracking-wider">Beta</span>
         </Link>
       </div>
 

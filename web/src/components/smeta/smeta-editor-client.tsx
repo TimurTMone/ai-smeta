@@ -216,6 +216,38 @@ export function SmetaEditorClient({ projectId, locale, dict }: { projectId: stri
               {smeta.clarifying_questions?.length > 0 && <Card className="border-amber-200 bg-amber-50/50"><CardContent className="pt-6"><CardTitle className="text-sm mb-3 text-amber-800">{t("Ещё вопросы", "More questions")}</CardTitle><ul className="space-y-2 text-sm text-amber-900">{smeta.clarifying_questions.map((q, i) => <li key={i}>❓ {q}</li>)}</ul></CardContent></Card>}
             </div>
           )}
+
+          {/* Feedback card */}
+          <Card className="border-sky-200 bg-gradient-to-br from-sky-50 to-blue-50">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white grid place-items-center shrink-0 shadow-lg shadow-sky-500/25 text-xl">
+                  💬
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-sky-900">
+                    {t("Насколько точна эта смета?", "How accurate is this estimate?", "Бул смета канчалык так?")}
+                  </h3>
+                  <p className="mt-1 text-sm text-sky-800">
+                    {t(
+                      "Мы в закрытой бете. Ваш отзыв поможет сделать расчёт точнее. Напишите нам в Telegram — что совпало, что нет, чего не хватает.",
+                      "We're in closed beta. Your feedback helps improve accuracy. Message us on Telegram — what was right, what was off, what's missing.",
+                      "Жабык бета. Пикириңиз тактыкты жакшыртууга жардам берет. Telegramга жазыңыз."
+                    )}
+                  </p>
+                  <a
+                    href="https://t.me/+996999955000"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#229ED9] text-white text-sm font-semibold hover:bg-[#1a8abf] transition-colors shadow-lg shadow-[#229ED9]/25"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    {t("Написать в Telegram", "Message on Telegram", "Telegramга жазуу")}
+                  </a>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </>
       )}
     </div>
