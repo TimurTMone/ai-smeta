@@ -129,6 +129,34 @@ export type DeckAsk = {
   contact?: BilingualText | null;
 };
 
+// Financial modeling for investor decks
+export type SensitivityScenario = {
+  scenario: "optimistic" | "base" | "pessimistic";
+  capex_delta_pct: number;    // e.g., -10, 0, +20
+  revenue_delta_pct: number;
+  irr_pct: number | null;
+  payback_months: number;
+};
+
+export type FinancialModel = {
+  total_capex: number;
+  annual_opex: number;
+  annual_revenue: number;
+  annual_profit: number;
+  irr_pct: number | null;         // internal rate of return
+  npv_at_10pct: number | null;    // NPV at 10% discount
+  payback_months: number;
+  sensitivity: SensitivityScenario[];
+};
+
+export type RiskItem = {
+  category: "technical" | "regulatory" | "market" | "financial" | "environmental";
+  description: BilingualText;
+  likelihood: "low" | "medium" | "high";
+  impact: "low" | "medium" | "high";
+  mitigation: BilingualText;
+};
+
 export type DeckData = {
   project_slug: string;
   language_primary: "ru" | "ky" | "en";
@@ -144,5 +172,7 @@ export type DeckData = {
   roadmap: DeckRoadmap;
   team: DeckTeam | null;
   ask: DeckAsk;
+  financial_model: FinancialModel | null;
+  risks: RiskItem[];
   image_credits: ImageCredit[];
 };

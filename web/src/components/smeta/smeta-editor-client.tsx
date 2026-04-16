@@ -184,30 +184,129 @@ export function SmetaEditorClient({ projectId, locale, dict }: { projectId: stri
               <Button variant="secondary" disabled><Download className="w-4 h-4" />{dict.export_xlsx}</Button>
             </div>
           </div>
+          {/* Cost per m² headline (if available) */}
+          {(smeta as Record<string, unknown>).cost_per_sqm && (
+            <Card className="bg-gradient-to-r from-sky-50 to-blue-50 border-sky-200">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm font-bold text-sky-900">{t("Стоимость за м²", "Cost per m²")}</div>
+                    <div className="text-xs text-sky-700 mt-0.5">
+                      {(smeta as Record<string, unknown>).building_area_sqm ? `${String((smeta as Record<string, unknown>).building_area_sqm)} м² · ` : ""}
+                      {(smeta as Record<string, unknown>).quality_tier ? <Badge variant="accent" className="mr-1">{String((smeta as Record<string, unknown>).quality_tier)}</Badge> : null}
+                      {smeta.region}
+                    </div>
+                  </div>
+                  <div className="text-3xl font-extrabold text-sky-700 tabular-nums">
+                    {formatCurrency(Number((smeta as Record<string, unknown>).cost_per_sqm), smeta.currency, locale)}/м²
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Line item sections with material/labor/equipment columns */}
           {smeta.sections.map((section, i) => (
             <Card key={i}><CardContent className="pt-6">
-              <h3 className="text-base font-bold mb-4">{section.name.ru}<span className="ml-2 text-sm font-normal text-[var(--muted-foreground)]">{section.name.en}</span></h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-base font-bold">{section.name.ru}<span className="ml-2 text-sm font-normal text-[var(--muted-foreground)]">{section.name.en}</span></h3>
+                {(section as Record<string, unknown>).section_total != null && <span className="text-sm font-semibold text-[var(--accent)] tabular-nums">{formatCurrency(Number((section as Record<string, unknown>).section_total), smeta.currency, locale)}</span>}
+              </div>
+              <div className="overflow-x-auto">
               <Table><TableHeader><TableRow>
-                <TableHead>{t("Наименование", "Description")}</TableHead><TableHead>{t("Ед.", "Unit")}</TableHead>
-                <TableHead className="text-right">{t("Кол-во", "Qty")}</TableHead><TableHead className="text-right">{t("Цена", "Rate")}</TableHead>
-                <TableHead className="text-right">{t("Сумма", "Total")}</TableHead><TableHead>{t("Источник", "Source")}</TableHead>
+                <TableHead>{t("Наименование", "Description")}</TableHead>
+                <TableHead>{t("Ед.", "Unit")}</TableHead>
+                <TableHead className="text-right">{t("Кол-во", "Qty")}</TableHead>
+                <TableHead className="text-right">{t("Мат.", "Mat.")}</TableHead>
+                <TableHead className="text-right">{t("Работа", "Labor")}</TableHead>
+                <TableHead className="text-right">{t("Мех.", "Equip.")}</TableHead>
+                <TableHead className="text-right">{t("Расц.", "Rate")}</TableHead>
+                <TableHead className="text-right">{t("Сумма", "Total")}</TableHead>
+                <TableHead>{t("Ист.", "Src")}</TableHead>
               </TableRow></TableHeader>
-              <TableBody>{section.items.map(item => (
+              <TableBody>{section.items.map(item => {
+                const li = item as Record<string, unknown>;
+                return (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.description.ru}<span className="block text-xs text-[var(--muted-foreground)]">{item.description.en}</span></TableCell>
-                  <TableCell className="text-[var(--muted-foreground)]">{item.unit}</TableCell>
-                  <TableCell className="text-right tabular-nums">{item.qty}</TableCell>
-                  <TableCell className="text-right tabular-nums">{item.rate.toLocaleString(locale)}</TableCell>
-                  <TableCell className="text-right font-semibold text-[var(--accent)] tabular-nums">{formatCurrency(item.total, smeta.currency, locale)}</TableCell>
-                  <TableCell><Badge variant={item.source === "history" ? "success" : item.source === "market" ? "warning" : "danger"}>{item.source}</Badge></TableCell>
+                  <TableCell className="font-medium text-xs">
+                    {item.description.ru}
+                    {li.norm_code ? <span className="block text-[10px] text-violet-600 font-mono">{String(li.norm_code)}</span> : null}
+                  </TableCell>
+                  <TableCell className="text-[var(--muted-foreground)] text-xs">{item.unit}</TableCell>
+                  <TableCell className="text-right tabular-nums text-xs">{item.qty}</TableCell>
+                  <TableCell className="text-right tabular-nums text-xs text-emerald-700">{li.material_cost != null ? Number(li.material_cost).toLocaleString(locale) : "—"}</TableCell>
+                  <TableCell className="text-right tabular-nums text-xs text-blue-700">{li.labor_cost != null ? Number(li.labor_cost).toLocaleString(locale) : "—"}</TableCell>
+                  <TableCell className="text-right tabular-nums text-xs text-amber-700">{li.equipment_cost != null ? Number(li.equipment_cost).toLocaleString(locale) : "—"}</TableCell>
+                  <TableCell className="text-right tabular-nums text-xs">{item.rate.toLocaleString(locale)}</TableCell>
+                  <TableCell className="text-right font-semibold text-[var(--accent)] tabular-nums text-xs">{formatCurrency(item.total, smeta.currency, locale)}</TableCell>
+                  <TableCell><Badge variant={item.source === "history" || item.source === "ter" || item.source === "fer" || item.source === "gesn" ? "success" : item.source === "market" ? "warning" : "danger"} className="text-[10px]">{item.source}</Badge></TableCell>
                 </TableRow>
-              ))}</TableBody></Table>
+                );
+              })}</TableBody></Table>
+              </div>
             </CardContent></Card>
           ))}
+
+          {/* Summary by cost category */}
+          {(smeta as Record<string, unknown>).summary && (
+            <Card><CardContent className="pt-6">
+              <CardTitle className="text-sm mb-4">{t("Сводка по категориям затрат", "Cost breakdown by category")}</CardTitle>
+              <div className="grid grid-cols-4 gap-4">
+                {[
+                  { label: t("Материалы", "Materials"), value: ((smeta as Record<string, unknown>).summary as Record<string, number>)?.materials_total, color: "emerald" },
+                  { label: t("Работа", "Labor"), value: ((smeta as Record<string, unknown>).summary as Record<string, number>)?.labor_total, color: "blue" },
+                  { label: t("Механизмы", "Equipment"), value: ((smeta as Record<string, unknown>).summary as Record<string, number>)?.equipment_total, color: "amber" },
+                  { label: t("Потери", "Waste"), value: ((smeta as Record<string, unknown>).summary as Record<string, number>)?.waste_total, color: "red" },
+                ].map((cat, i) => (
+                  <div key={i} className="text-center p-3 rounded-xl bg-[var(--muted)] border border-[var(--border)]">
+                    <div className={`text-lg font-extrabold tabular-nums text-${cat.color}-700`}>
+                      {cat.value ? formatCurrency(cat.value, smeta.currency, locale) : "—"}
+                    </div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-semibold mt-1">{cat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent></Card>
+          )}
+
+          {/* Markups */}
+          {(smeta as Record<string, unknown>).markups && (
+            <Card><CardContent className="pt-6">
+              <CardTitle className="text-sm mb-4">{t("Накладные, прибыль, непредвиденные", "Overhead, profit, contingency")}</CardTitle>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2 border-b border-[var(--border)]">
+                  <span className="text-sm">{t("Прямые затраты", "Direct cost")}</span>
+                  <span className="font-semibold tabular-nums">{formatCurrency(Number((smeta as Record<string, unknown>).direct_cost) || smeta.total, smeta.currency, locale)}</span>
+                </div>
+                {[
+                  { label: t("Накладные расходы", "Overhead"), pct: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.overhead_pct, amount: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.overhead_amount },
+                  { label: t("Сметная прибыль", "Estimated profit"), pct: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.profit_pct, amount: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.profit_amount },
+                  { label: t("Непредвиденные", "Contingency"), pct: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.contingency_pct, amount: ((smeta as Record<string, unknown>).markups as Record<string, number>)?.contingency_amount },
+                ].map((row, i) => (
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-[var(--border)]">
+                    <span className="text-sm">{row.label} <span className="text-[var(--muted-foreground)]">({row.pct ? `${(row.pct * 100).toFixed(0)}%` : "—"})</span></span>
+                    <span className="font-semibold tabular-nums">{row.amount ? formatCurrency(row.amount, smeta.currency, locale) : "—"}</span>
+                  </div>
+                ))}
+                {((smeta as Record<string, unknown>).markups as Record<string, unknown>)?.regional_note ? (
+                  <div className="text-xs text-[var(--muted-foreground)] italic pt-1">
+                    {t("Региональный коэффициент", "Regional coefficient")}: {String(((smeta as Record<string, unknown>).markups as Record<string, unknown>).regional_note)}
+                  </div>
+                ) : null}
+              </div>
+            </CardContent></Card>
+          )}
+
+          {/* GRAND TOTAL */}
           <Card className="border-[var(--accent)] border-2"><CardContent className="pt-6">
             <div className="flex items-center justify-between">
-              <div className="text-sm uppercase tracking-wider font-bold text-[var(--muted-foreground)]">{dict.total}</div>
-              <div className="text-4xl font-extrabold text-[var(--accent)] tabular-nums">{formatCurrency(smeta.total, smeta.currency, locale)}</div>
+              <div>
+                <div className="text-sm uppercase tracking-wider font-bold text-[var(--muted-foreground)]">{t("ИТОГО С НАКЛАДНЫМИ", "TOTAL WITH MARKUPS")}</div>
+                <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{t("включая накладные, прибыль, непредвиденные", "incl. overhead, profit, contingency")}</div>
+              </div>
+              <div className="text-4xl font-extrabold text-[var(--accent)] tabular-nums">
+                {formatCurrency((smeta as Record<string, unknown>).total_with_markups ? Number((smeta as Record<string, unknown>).total_with_markups) : smeta.total, smeta.currency, locale)}
+              </div>
             </div>
           </CardContent></Card>
           {(smeta.assumptions?.length > 0 || smeta.clarifying_questions?.length > 0) && (

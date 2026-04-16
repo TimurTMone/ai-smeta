@@ -85,12 +85,41 @@ const SYSTEM_PROMPT = `Ты — старший консультант McKinsey, 
     "headline": {"ru": "...", "en": "..."},
     "supporting_points": [{"ru": "...", "en": "..."}]
   },
+  "financial_model": {
+    "total_capex": 25000000,
+    "annual_opex": 3000000,
+    "annual_revenue": 8000000,
+    "annual_profit": 5000000,
+    "irr_pct": 22.5,
+    "npv_at_10pct": 12000000,
+    "payback_months": 60,
+    "sensitivity": [
+      {"scenario": "optimistic", "capex_delta_pct": -10, "revenue_delta_pct": 15, "irr_pct": 28.0, "payback_months": 48},
+      {"scenario": "base", "capex_delta_pct": 0, "revenue_delta_pct": 0, "irr_pct": 22.5, "payback_months": 60},
+      {"scenario": "pessimistic", "capex_delta_pct": 20, "revenue_delta_pct": -15, "irr_pct": 14.0, "payback_months": 84}
+    ]
+  },
+  "risks": [
+    {
+      "category": "regulatory",
+      "description": {"ru": "Задержка получения разрешений", "en": "Permit acquisition delays"},
+      "likelihood": "medium",
+      "impact": "high",
+      "mitigation": {"ru": "Раннее начало согласований, привлечение юриста", "en": "Early permit filing, legal counsel engagement"}
+    }
+  ],
   "image_credits": []
 }
 
-Если в описании недостаточно данных для полного заполнения — заполняй то что можешь, остальное ставь null или "требует уточнения / TBD". Но ОБЯЗАТЕЛЬНО заполняй cover, vision, items (хотя бы 1), financial_summary, roadmap (хотя бы 2 фазы), ask.
+ОБЯЗАТЕЛЬНЫЕ ПОЛЯ (всегда заполняй):
+- cover, vision, items (хотя бы 1), financial_summary, roadmap (хотя бы 2 фазы), ask
+- financial_model — рассчитай IRR и NPV на основе capex, opex и revenue. Если данных мало — используй отраслевые бенчмарки для ЦА (туризм: IRR 15-25%, логистика: IRR 12-18%, жильё: IRR 18-28%)
+- risks — минимум 3-5 рисков по категориям: technical, regulatory, market, financial, environmental
+- sensitivity — 3 сценария (optimistic, base, pessimistic)
 
-Верни ТОЛЬКО JSON. Никаких комментариев до или после.`;
+Если в описании недостаточно данных — заполняй то что можешь на основе отраслевых бенчмарков, остальное ставь null.
+
+Верни ТОЛЬКО JSON.`;
 
 export async function POST(request: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
