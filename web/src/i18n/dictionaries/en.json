@@ -47,6 +47,17 @@
       "subtitle": "Sign up, upload your first project — free during beta.",
       "button": "Start free"
     },
+    "social_proof": "The first AI platform for Central Asian construction companies",
+    "demo_badge": "Live presentation",
+    "demo_subtitle": "A real project — Issyk-Kul Water Route — prepared with Ai-Smeta",
+    "stats": {
+      "speed": "10×",
+      "speed_label": "Faster than manual",
+      "projects": "6",
+      "projects_label": "Ports in the first project",
+      "languages": "3",
+      "languages_label": "Interface languages"
+    },
     "pricing": {
       "title": "Pricing",
       "subtitle": "Free during closed beta for early customers. Get in touch.",

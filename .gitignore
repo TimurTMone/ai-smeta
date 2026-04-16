@@ -80,3 +80,4 @@ Karakol/data/_raw/
 *.tmp
 *.bak
 backend/app/deck/examples/hotel_pair.html
+.vercel
