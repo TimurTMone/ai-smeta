@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { text: string; projectId?: string };
+  let body: { text: string; answers?: Record<string, string>; projectId?: string };
   try {
     body = await request.json();
   } catch {
@@ -77,11 +77,20 @@ export async function POST(request: Request) {
   try {
     const client = new Anthropic({ apiKey });
 
+    // Build the user message: original description + follow-up answers if provided
+    let userContent = body.text;
+    if (body.answers && Object.keys(body.answers).length > 0) {
+      const answersText = Object.entries(body.answers)
+        .map(([q, a]) => `Вопрос: ${q}\nОтвет: ${a}`)
+        .join("\n\n");
+      userContent = `ОПИСАНИЕ ОБЪЕКТА:\n${body.text}\n\nУТОЧНЁННЫЕ ДАННЫЕ (ответы заказчика на вопросы сметчика):\n${answersText}`;
+    }
+
     const msg = await client.messages.create({
       model: "claude-sonnet-4-6-20250514",
-      max_tokens: 4096,
+      max_tokens: 6000,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: body.text }],
+      messages: [{ role: "user", content: userContent }],
     });
 
     const raw = (msg.content[0] as { type: string; text: string }).text.trim();
