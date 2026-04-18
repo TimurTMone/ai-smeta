@@ -69,15 +69,17 @@ export function UsersTableClient({ dict }: { dict: Dict }) {
               <div className="flex items-center justify-end gap-2 text-xs">
                 <button
                   className="text-[var(--accent)] hover:underline"
-                  disabled
-                  title="Coming soon"
+                  onClick={() => alert(`Impersonating ${u.email}\n\nThis feature writes a session cookie as ${u.email} and redirects to /dashboard. Available once the real backend is deployed.`)}
                 >
                   {dict.action_impersonate}
                 </button>
                 <button
                   className="text-[var(--danger)] hover:underline"
-                  disabled
-                  title="Coming soon"
+                  onClick={() => {
+                    if (confirm(`Deactivate user ${u.email}? They will no longer be able to sign in.`)) {
+                      alert(`User ${u.email} marked for deactivation (mock).\n\nReal implementation will write to the backend on confirm.`);
+                    }
+                  }}
                 >
                   {dict.action_deactivate}
                 </button>

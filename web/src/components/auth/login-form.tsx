@@ -23,7 +23,7 @@ export function LoginForm({
   locale: Locale;
   labels: Labels;
 }) {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState("demo@ai-smeta.kg");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [devLink, setDevLink] = React.useState<string | null>(null);

@@ -3,6 +3,7 @@
 import * as React from "react";
 import type { Locale } from "@/i18n/config";
 import type { Smeta } from "@/types/api";
+import { getSmeta } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +27,18 @@ export function SmetaEditorClient({ projectId, locale, dict }: { projectId: stri
   const [smeta, setSmeta] = React.useState<Smeta | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
-  void projectId;
+
+  // Auto-load existing Smeta on mount — if data exists, skip wizard and show results
+  React.useEffect(() => {
+    getSmeta(projectId)
+      .then(({ data }) => {
+        if (data && data.sections && data.sections.length > 0 && data.sections[0].items.length > 0) {
+          setSmeta(data);
+          setStep("result");
+        }
+      })
+      .catch(() => { /* no existing data — stay on describe step */ });
+  }, [projectId]);
 
   const t = (ru: string, en: string, ky?: string) => locale === "en" ? en : locale === "ky" ? (ky ?? ru) : ru;
 
